@@ -49,73 +49,77 @@ package flump.export
 				var movieXml :XML = movie.scale(_conf.scale).toXML();
 				var Ref: String; // @testing kFirst Frame Check
 
-				// Extract Per Animation
+				// CCB Per Animation
 				var metaFile: File  = _destDir.resolvePath(_prefix + _lib.location + "_" + movieXml.@name + "." + CCBFormat.NAME.toLowerCase());
+				trace("Movie: "+ movieXml.@name );
 				
 				// Start CCB Format
 				var export :String = "";
 				export+=CCBHelper.addHeader();
 				export+=CCBHelper.startNode();
 
+				var animation :String = "";
+				
 				// Layer Exports
 				for each (var kf :XML in movieXml..kf) {
+					
 					if (XmlUtil.hasAttr(kf, "ref")) {
 						
-						// Extract First Frame Only
-						if(kf.@ref!=Ref) {
-							
-							// Lookup Symbol Texture
-							var width: Number = 1
-							var height: Number = 1;
-							for each (var TextureLookup: SwfTexture in textures) {
-								if(TextureLookup.symbol==kf.@ref) {
-									width = TextureLookup.w;
-									height = TextureLookup.h;
-								}
+						trace("Layer: "+ kf.@ref);
+						
+						// Lookup Symbol Texture
+						var width  :Number = 1
+						var height :Number = 1;
+						for each (var TextureLookup: SwfTexture in textures) {
+							if(TextureLookup.symbol==kf.@ref) {
+								width = TextureLookup.w;
+								height = TextureLookup.h;
 							}
-							
-							// Defaults
-							var anchor: Array=[0.5,0.5];
-							var scale: Array=[1,1];
-							var skew: Array=[0,0];
-							var rotation: Array=[0,0];
-							
-							// Position
-							var position: Array = kf.@loc.split(/,/);
-							position[0] = Number(position[0])/_conf.scale; 
-							position[1] = (Number(position[1])*-1)/_conf.scale;     // Flip Y
-							
-							// Anchor
-							if(kf.@pivot.length()>0) { 
-								anchor = kf.@pivot.split(/,/);
-								anchor[0] = anchor[0]/width;
-								anchor[1] = 1 - (anchor[1]/height);
-							}
-							
-							// Scale
-							if(kf.@scale.length()>0) scale = kf.@scale.split(/,/);
-							
-							// Skew / Rotation
-							if(kf.@skew.length()>0) { 
-								skew = kf.@skew.split(/,/);
-								rotation[0] = skew[0] * 180.0/Math.PI;
-								rotation[1] = skew[1] * 180.0/Math.PI;
-							}
-							
-							
-							export+=CCBHelper.addSprite(kf.@ref,_assetDir,position,anchor,scale,skew,rotation);
-							
-							Ref = kf.@ref;
 						}
-					
+						
+						// Defaults
+						var anchor: Array=[0.5,0.5];
+						var scale: Array=[1,1];
+						var skew: Array=[0,0];
+						var rotation: Array=[0,0];
+						
+						// Position
+						var position: Array = kf.@loc.split(/,/);
+						position[0] = Number(position[0])/_conf.scale; 
+						position[1] = (Number(position[1])*-1)/_conf.scale;     // Flip Y
+						
+						// Anchor
+						if(kf.@pivot.length()>0) { 
+							anchor = kf.@pivot.split(/,/);
+							anchor[0] = anchor[0]/width;
+							anchor[1] = 1 - (anchor[1]/height);
+						}
+						
+						// Scale
+						if(kf.@scale.length()>0) { 
+							scale = kf.@scale.split(/,/);
+						}
+						
+						// Skew / Rotation
+						if(kf.@skew.length()>0) { 
+							skew = kf.@skew.split(/,/);
+							rotation[0] = skew[0] * 180.0/Math.PI;
+							rotation[1] = skew[1] * 180.0/Math.PI;
+						}
+						
 					}
+		
+					// Export Symbol + Animation
+					export+=CCBHelper.addSprite(kf.@ref,_assetDir,position,anchor,scale,skew,rotation,animation);
 				}
 				
 				// End CCB
 				export+=CCBHelper.endNode();
 				export+=CCBHelper.addFooter();
 				
+				// Write CCB
 				Files.write(metaFile, function (out :IDataOutput) :void {  out.writeUTFBytes(export); });
+				break; // Focusing on Single Animation
 			}
 
 		}
@@ -123,6 +127,7 @@ package flump.export
 		protected var _assetname :String;
 		protected var _prefix :String;
 		protected var _assetDir :String;
+		
 	}
 }
 

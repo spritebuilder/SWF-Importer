@@ -214,11 +214,12 @@ package
 			return export;
 		}
 		
-		public static function addSprite(name: String, path: String, position: Array, anchor: Array,  scale: Array, skew: Array, rotation: Array):String
+		public static function addSprite(name: String, path: String, position: Array, anchor: Array,  scale: Array, skew: Array, rotation: Array, animationBlock: String):String
 		{
 			var export:String = ( 
 			<![CDATA[
 			<dict>
+                {ANIMATION_BLOCK}
 				<key>baseClass</key>
 				<string>CCSprite</string>
 				<key>children</key>
@@ -336,6 +337,10 @@ package
 			</dict>
 			]]> ).toString();
 			
+			// Animation Block
+			export = export.replace(/{ANIMATION_BLOCK}/gs,animationBlock);
+			
+			// Basics
 			export = export.replace(/{path}/gs,path);
 			export = export.replace(/{name}/gs,name);
 			
