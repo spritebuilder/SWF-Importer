@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Window xmlns:fx="http://ns.adobe.com/mxml/2009"
+          xmlns:s="library://ns.adobe.com/flex/spark"
+          xmlns:mx="library://ns.adobe.com/flex/mx"
+          width="400" height="300">
+    <s:layout>
+      <s:VerticalLayout/>
+    </s:layout>
+    <s:HGroup>
+      <s:Label text="Scale:" alignmentBaseline="descent" width="40" />
+      <s:TextInput id="scale" widthInChars="3" restrict=".0123456789" text="1"/>
+      <s:Label text="Border:" alignmentBaseline="descent" width="50" />
+      <s:TextInput id="border" widthInChars="3" restrict="0123456789" text="1"/>
+      <s:Button id="preview" label="Preview"/>
+    </s:HGroup>
+    <s:Scroller id="scroller" width="100%" height="100%" horizontalScrollPolicy="auto" verticalScrollPolicy="auto">
+      <s:Group>
+          <s:Group id="bitmapLayoutGroup"/>
+      </s:Group>
+    </s:Scroller>
+</s:Window>
