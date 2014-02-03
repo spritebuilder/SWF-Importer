@@ -8,6 +8,7 @@ package flump.export
 	import flash.utils.IDataOutput;
 	
 	import flump.SwfTexture;
+	import flump.mold.KeyframeMold;
 	import flump.mold.MovieMold;
 	import flump.xfl.XflLibrary;
 	import flump.xfl.XflTexture;
@@ -36,22 +37,39 @@ package flump.export
 			
 			// Extract/Write Individual Textures 
 			var textures:Array = new Array(); 
+			var SWFTexture: SwfTexture;
+			var movie :MovieMold;
 			
+			// Animation Texture Frame
 			for each (var tex :XflTexture in _lib.textures) {
-				var SWFTexture: SwfTexture = (SwfTexture.fromTexture(_lib.swf, tex, _conf.quality, _conf.scale));
+				SWFTexture = (SwfTexture.fromTexture(_lib.swf, tex, _conf.quality, _conf.scale));
 				textures.push(SWFTexture); // Add Texture
 				Files.write( libExportDir.resolvePath(SWFTexture.symbol + ".png"), function (out :IDataOutput) :void {  out.writeBytes(PNGEncoder.encode(SWFTexture.toBitmapData())); });
 			}
 			
+			// Flipbook Texture Frames
+			for each (movie in _lib.movies) {
+				if (!movie.flipbook) continue;
+				for each (var kfm :KeyframeMold in movie.layers[0].keyframes) {
+					SWFTexture = (SwfTexture.fromFlipbook(_lib, movie, kfm.index, _conf.quality, _conf.scale));
+					textures.push(SWFTexture); // Add Texture
+					Files.write( libExportDir.resolvePath(SWFTexture.symbol + ".png"), function (out :IDataOutput) :void {  out.writeBytes(PNGEncoder.encode(SWFTexture.toBitmapData())); });
+				}
+			}
+			
 			const prefix :String = _lib.location + "/";
-			for each (var movie :MovieMold in _lib.publishedMovies) {
+			for each (movie in _lib.publishedMovies) {
 				
 				var movieXml :XML = movie.scale(_conf.scale).toXML();
-				var Ref: String; // @testing kFirst Frame Check
+				var Ref: String = ''; // @testing kFirst Frame Check
 
 				// CCB Per Animation
 				var metaFile: File  = _destDir.resolvePath(_prefix + _lib.location + "_" + movieXml.@name + "." + CCBFormat.NAME.toLowerCase());
 				trace("Movie: "+ movieXml.@name );
+				
+				// Write CCB (Skip Scene(s), UnSupported for now, add CCBFile support at some point.)
+				if(metaFile.url.indexOf("scene")>=0)
+					continue;
 				
 				// Start CCB Format
 				var export :String = "";
@@ -63,7 +81,7 @@ package flump.export
 				// Layer Exports
 				for each (var kf :XML in movieXml..kf) {
 					
-					if (XmlUtil.hasAttr(kf, "ref")) {
+					if (XmlUtil.hasAttr(kf, "ref") && Ref!=movieXml..layer.@name) {
 						
 						trace("Layer: "+ kf.@ref);
 						
@@ -82,11 +100,14 @@ package flump.export
 						var scale: Array=[1,1];
 						var skew: Array=[0,0];
 						var rotation: Array=[0,0];
+						var position: Array=[0,0];
 						
 						// Position
-						var position: Array = kf.@loc.split(/,/);
-						position[0] = Number(position[0])/_conf.scale; 
-						position[1] = (Number(position[1])*-1)/_conf.scale;     // Flip Y
+						if(kf.@loc.length()>0) { 
+							position = kf.@loc.split(/,/);
+							position[0] = Number(position[0])/_conf.scale; 
+							position[1] = (Number(position[1])*-1)/_conf.scale;     // Flip Y
+						}
 						
 						// Anchor
 						if(kf.@pivot.length()>0) { 
@@ -107,19 +128,20 @@ package flump.export
 							rotation[1] = skew[1] * 180.0/Math.PI;
 						}
 						
+						export+=CCBHelper.addSprite(kf.@ref,_assetDir,position,anchor,scale,skew,rotation,animation);
 					}
-		
-					// Export Symbol + Animation
-					export+=CCBHelper.addSprite(kf.@ref,_assetDir,position,anchor,scale,skew,rotation,animation);
+					
+					Ref = movieXml..layer.@name;
+
 				}
 				
 				// End CCB
 				export+=CCBHelper.endNode();
 				export+=CCBHelper.addFooter();
 				
-				// Write CCB
-				Files.write(metaFile, function (out :IDataOutput) :void {  out.writeUTFBytes(export); });
-				break; // Focusing on Single Animation
+				Files.write(metaFile, function (out :IDataOutput) :void { out.writeUTFBytes(export); });
+				
+				// break; // Focusing on Single Animation
 			}
 
 		}
