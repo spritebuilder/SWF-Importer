@@ -9,6 +9,7 @@ package
 		public var rotation: Array=[0,0];
 		public var position: Array=[0,0];
 		public var symbol: String;
+		public var duration: Number;
 		
 		public function CCBFrame()
 		{

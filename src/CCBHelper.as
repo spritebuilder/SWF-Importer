@@ -214,12 +214,10 @@ package
 			return export;
 		}
 		
-		public static function addSprite(name: String, path: String, position: Array, anchor: Array,  scale: Array, skew: Array, rotation: Array, animationBlock: String):String
+		public static function addSprite(name: String, path: String, position: Array, anchor: Array,  scale: Array, skew: Array, rotation: Array):String
 		{
 			var export:String = ( 
 			<![CDATA[
-			<dict>
-                {ANIMATION_BLOCK}
 				<key>baseClass</key>
 				<string>CCSprite</string>
 				<key>children</key>
@@ -337,9 +335,6 @@ package
 			</dict>
 			]]> ).toString();
 			
-			// Animation Block
-			export = export.replace(/{ANIMATION_BLOCK}/gs,animationBlock);
-			
 			// Basics
 			export = export.replace(/{path}/gs,path);
 			export = export.replace(/{name}/gs,name);
@@ -368,8 +363,86 @@ package
 			
 		}
 		
+		public static function addAnimation(frames: Array, path: String):String
+		{
+			var export :String = '';
+			
+			var startAnimatedProperties:String = ( 
+				<![CDATA[
+				<dict>
+				<key>animatedProperties</key>
+				<dict>
+					<key>0</key>
+					<dict>
+						<key>spriteFrame</key>
+						<dict>
+							<key>keyframes</key>
+							<array>
+				]]> ).toString();
+			
+			var endAnimatedProperties:String = ( 
+				<![CDATA[
+							</array>
+							<key>name</key>
+							<string>spriteFrame</string>
+							<key>type</key>
+							<integer>7</integer>
+						</dict>
+					</dict>
+				</dict>
+				]]> ).toString();
+			
+			var spriteFrameTemplate :String = (
+				<![CDATA[
+						<dict>
+							<key>easing</key>
+							<dict>
+								<key>type</key>
+								<integer>0</integer>
+							</dict>
+							<key>name</key>
+							<string>spriteFrame</string>
+							<key>time</key>
+							<real>{time}</real>
+							<key>type</key>
+							<integer>7</integer>
+							<key>value</key>
+							<array>
+								<string>{path}/{symbol}.png</string>
+								<string>Use regular file</string>
+							</array>
+						</dict>
+			]]> ).toString();
+			
+			// Being Animated Properties
+			export+=startAnimatedProperties;
+			
+			// Create Key Frames
+			var time: Number = 0;
+			for each (var frame :CCBFrame in frames) {
+				var animationBlock :String = spriteFrameTemplate;
+				
+				// Sprite Reference
+				animationBlock = animationBlock.replace(/{path}/gs,path);
+				animationBlock = animationBlock.replace(/{symbol}/gs,frame.symbol);
+				
+				// Time
+				animationBlock = animationBlock.replace(/{time}/gs,time);
+				
+				// Increment Duration (For Next KeyFrame)
+				time+=frame.duration;
+				
+				// Add To CCB
+				export+=animationBlock;
+			}
+			
+			// End Animated Properties
+			export+=endAnimatedProperties;
+			
+			return export;
+		}
 		
-
+		
 
 	}
 }

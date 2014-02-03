@@ -62,10 +62,12 @@ package flump.export
 				
 				var movieXml :XML = movie.scale(_conf.scale).toXML();
 				var Ref: String = ''; // @testing kFirst Frame Check
+				var movieName :String = movieXml.@name;
+				var frameRate: Number = _lib.frameRate;
 
 				// CCB Per Animation
 				var metaFile: File  = _destDir.resolvePath(_prefix + _lib.location + "_" + movieXml.@name + "." + CCBFormat.NAME.toLowerCase());
-				trace("Movie: "+ movieXml.@name );
+				trace("Movie: "+ movieName + ", FPS: " + frameRate);
 				
 				// Write CCB (Skip Scene(s), UnSupported for now, add CCBFile support at some point.)
 				if(metaFile.url.indexOf("scene")>=0)
@@ -97,8 +99,9 @@ package flump.export
 							var height :Number = 1;
 							for each (var TextureLookup: SwfTexture in textures) {
 								if(TextureLookup.symbol==kf.@ref) {
-									width = TextureLookup.w;
+									width  = TextureLookup.w;
 									height = TextureLookup.h;
+									break;
 								}
 							}
 							
@@ -106,7 +109,12 @@ package flump.export
 							var frame: CCBFrame = new CCBFrame();
 							
 							// Symbol
-							frame.symbol = kf.@ref;
+							frame.symbol = kf.@ref.toString();
+							
+							// Duration
+							if(kf.@duration.length()>0) { 
+								frame.duration =  ( (60 / frameRate) * Number(kf.@duration) ) / 60; 
+							}
 							
 							// Position
 							if(kf.@loc.length()>0) { 
@@ -143,10 +151,14 @@ package flump.export
 						
 					}
 					
-					// Export Layer Frame(s)
-					var tempFrame: CCBFrame = animation[0]; // 
+					
+					// Build Animation
+					export+=CCBHelper.addAnimation(animation,_assetDir);
+					
+					// Export First Frame (Default Display)
+					var tempFrame: CCBFrame = animation[0];
 					trace("Exporting Sprite: " + tempFrame.symbol);
-					export+=CCBHelper.addSprite(tempFrame.symbol,_assetDir,tempFrame.position,tempFrame.anchor,tempFrame.scale,tempFrame.skew,tempFrame.rotation,'');
+					export+=CCBHelper.addSprite(tempFrame.symbol,_assetDir,tempFrame.position,tempFrame.anchor,tempFrame.scale,tempFrame.skew,tempFrame.rotation);
 					
 				}
 				
@@ -155,6 +167,7 @@ package flump.export
 				export+=CCBHelper.addFooter();
 				
 				// Write Movie
+				export = export.replace (/\s*\R/g, "\n");  // Remove Empty Lines
 				Files.write(metaFile, function (out :IDataOutput) :void { out.writeUTFBytes(export); });
 			}
 
