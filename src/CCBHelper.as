@@ -367,12 +367,24 @@ package
 		{
 			var export :String = '';
 			
+			// Animated Properties Blocks
 			var startAnimatedProperties:String = ( 
 				<![CDATA[
 				<dict>
 				<key>animatedProperties</key>
 				<dict>
 					<key>0</key>
+				]]> ).toString();
+			
+			var endAnimatedProperties:String = ( 
+				<![CDATA[
+				</dict>
+				]]> ).toString();
+			
+			// Sprite Frame Blocks
+			
+			var startSpriteFrameProperties:String = ( 
+				<![CDATA[
 					<dict>
 						<key>spriteFrame</key>
 						<dict>
@@ -380,7 +392,7 @@ package
 							<array>
 				]]> ).toString();
 			
-			var endAnimatedProperties:String = ( 
+			var endSpriteFrameProperties:String = ( 
 				<![CDATA[
 							</array>
 							<key>name</key>
@@ -389,8 +401,9 @@ package
 							<integer>7</integer>
 						</dict>
 					</dict>
-				</dict>
 				]]> ).toString();
+			
+			// Sprite Frame Keyframes
 			
 			var spriteFrameTemplate :String = (
 				<![CDATA[
@@ -414,15 +427,77 @@ package
 						</dict>
 			]]> ).toString();
 			
-			// Being Animated Properties
+			// Begin Animated Properties
 			export+=startAnimatedProperties;
+			
+			// Sprite Frames
+			export+=CCBHelper.addSpriteFrames(frames,path);
+			
+			// End Animated Properties
+			export+=endAnimatedProperties;
+			
+			return export;
+		}
+		
+		private static function addSpriteFrames(frames: Array, path :String):String {
+			
+			var export :String = '';
+			
+			// Sprite Frame Blocks
+			var startSpriteFrameProperties:String = ( 
+				<![CDATA[
+					<dict>
+						<key>spriteFrame</key>
+						<dict>
+							<key>keyframes</key>
+							<array>
+				]]> ).toString();
+			
+			var endSpriteFrameProperties:String = ( 
+				<![CDATA[
+							</array>
+							<key>name</key>
+							<string>spriteFrame</string>
+							<key>type</key>
+							<integer>7</integer>
+						</dict>
+					</dict>
+				]]> ).toString();
+			
+			// Sprite Frame Keyframes
+			var spriteFrameTemplate :String = (
+				<![CDATA[
+						<dict>
+							<key>easing</key>
+							<dict>
+								<key>type</key>
+								<integer>0</integer>
+							</dict>
+							<key>name</key>
+							<string>spriteFrame</string>
+							<key>time</key>
+							<real>{time}</real>
+							<key>type</key>
+							<integer>7</integer>
+							<key>value</key>
+							<array>
+								<string>{path}/{symbol}.png</string>
+								<string>Use regular file</string>
+							</array>
+						</dict>
+			]]> ).toString();
+			
+			// Sprite Frames
+			export+=startSpriteFrameProperties;
 			
 			// Create Key Frames
 			var time: Number = 0;
 			for each (var frame :CCBFrame in frames) {
+				
+				// SpriteFrame Block
 				var animationBlock :String = spriteFrameTemplate;
 				
-				// Sprite Reference
+				// Sprite Path
 				animationBlock = animationBlock.replace(/{path}/gs,path);
 				animationBlock = animationBlock.replace(/{symbol}/gs,frame.symbol);
 				
@@ -436,13 +511,11 @@ package
 				export+=animationBlock;
 			}
 			
-			// End Animated Properties
-			export+=endAnimatedProperties;
+			// End Sprite Frame
+			export+=endSpriteFrameProperties;
 			
 			return export;
 		}
 		
-		
-
 	}
 }
