@@ -12,7 +12,7 @@ package flump.export
 	import flump.mold.MovieMold;
 	import flump.xfl.XflLibrary;
 	import flump.xfl.XflTexture;
-	
+		
 	public class CCBFormat extends PublishFormat
 	{
 		public static const NAME :String = "CCB";
@@ -76,72 +76,86 @@ package flump.export
 				export+=CCBHelper.addHeader();
 				export+=CCBHelper.startNode();
 
-				var animation :String = "";
-				
-				// Layer Exports
-				for each (var kf :XML in movieXml..kf) {
+				// Parse Layers
+				for each (var layer :XML in movieXml..layer) {
 					
-					if (XmlUtil.hasAttr(kf, "ref") && Ref!=movieXml..layer.@name) {
-						
-						trace("Layer: "+ kf.@ref);
-						
-						// Lookup Symbol Texture
-						var width  :Number = 1
-						var height :Number = 1;
-						for each (var TextureLookup: SwfTexture in textures) {
-							if(TextureLookup.symbol==kf.@ref) {
-								width = TextureLookup.w;
-								height = TextureLookup.h;
+					trace("Layer: "+ layer.@name);
+					
+					// Layer Animation Frame Array
+					var animation :Array = new Array();
+					
+					//Parse Key Frames 
+					for each (var kf :XML in layer..kf) {
+					
+						// Check KF Valid
+						if (XmlUtil.hasAttr(kf, "ref")) {
+							
+							trace("KF: "+ kf.@ref);
+							
+							// Lookup Symbol Texture
+							var width  :Number = 1;
+							var height :Number = 1;
+							for each (var TextureLookup: SwfTexture in textures) {
+								if(TextureLookup.symbol==kf.@ref) {
+									width = TextureLookup.w;
+									height = TextureLookup.h;
+								}
 							}
+							
+							// Create Frame
+							var frame: CCBFrame = new CCBFrame();
+							
+							// Symbol
+							frame.symbol = kf.@ref;
+							
+							// Position
+							if(kf.@loc.length()>0) { 
+								frame.position = kf.@loc.split(/,/);
+								frame.position[0] = Number(frame.position[0])/_conf.scale; 
+								frame.position[1] = (Number(frame.position[1])*-1)/_conf.scale;     // Flip Y
+							}
+							
+							// Anchor
+							if(kf.@pivot.length()>0) { 
+								frame.anchor = kf.@pivot.split(/,/);
+								frame.anchor[0] = frame.anchor[0]/width;
+								frame.anchor[1] = 1 - (frame.anchor[1]/height);
+							}
+							
+							// Scale
+							if(kf.@scale.length()>0) { 
+								frame.scale = kf.@scale.split(/,/);
+							}
+							
+							// Skew / Rotation
+							if(kf.@skew.length()>0) { 
+								frame.skew = kf.@skew.split(/,/);
+								frame.rotation[0] = frame.skew[0] * 180.0/Math.PI;
+								frame.rotation[1] = frame.skew[1] * 180.0/Math.PI;
+							}
+							
+							animation.push(frame);
+							
+							// Layer Name
+							Ref = movieXml..layer.@name;
+							
 						}
 						
-						// Defaults
-						var anchor: Array=[0.5,0.5];
-						var scale: Array=[1,1];
-						var skew: Array=[0,0];
-						var rotation: Array=[0,0];
-						var position: Array=[0,0];
-						
-						// Position
-						if(kf.@loc.length()>0) { 
-							position = kf.@loc.split(/,/);
-							position[0] = Number(position[0])/_conf.scale; 
-							position[1] = (Number(position[1])*-1)/_conf.scale;     // Flip Y
-						}
-						
-						// Anchor
-						if(kf.@pivot.length()>0) { 
-							anchor = kf.@pivot.split(/,/);
-							anchor[0] = anchor[0]/width;
-							anchor[1] = 1 - (anchor[1]/height);
-						}
-						
-						// Scale
-						if(kf.@scale.length()>0) { 
-							scale = kf.@scale.split(/,/);
-						}
-						
-						// Skew / Rotation
-						if(kf.@skew.length()>0) { 
-							skew = kf.@skew.split(/,/);
-							rotation[0] = skew[0] * 180.0/Math.PI;
-							rotation[1] = skew[1] * 180.0/Math.PI;
-						}
-						
-						export+=CCBHelper.addSprite(kf.@ref,_assetDir,position,anchor,scale,skew,rotation,animation);
 					}
 					
-					Ref = movieXml..layer.@name;
-
+					// Export Layer Frame(s)
+					var tempFrame: CCBFrame = animation[0]; // 
+					trace("Exporting Sprite: " + tempFrame.symbol);
+					export+=CCBHelper.addSprite(tempFrame.symbol,_assetDir,tempFrame.position,tempFrame.anchor,tempFrame.scale,tempFrame.skew,tempFrame.rotation,'');
+					
 				}
 				
 				// End CCB
 				export+=CCBHelper.endNode();
 				export+=CCBHelper.addFooter();
 				
+				// Write Movie
 				Files.write(metaFile, function (out :IDataOutput) :void { out.writeUTFBytes(export); });
-				
-				// break; // Focusing on Single Animation
 			}
 
 		}
