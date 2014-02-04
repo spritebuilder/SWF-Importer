@@ -7,28 +7,27 @@ package
 		public static function addHeader():String
 		{
 			var export:String = ( 
-			<![CDATA[
-			<?xml version="1.0" encoding="UTF-8"?>
-			<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-			<plist version="1.0">
-				<dict>
-				<key>centeredOrigin</key>
-				<false/>
-				<key>currentResolution</key>
-				<integer>0</integer>
-				<key>currentSequenceId</key>
-				<integer>0</integer>
-				<key>docDimensionsType</key>
-				<integer>1</integer>
-				<key>fileType</key>
-				<string>CocosBuilder</string>
-				<key>fileVersion</key>
-				<integer>4</integer>
-				<key>guides</key>
-				<array/>
-				<key>jsControlled</key>
-				<false/>
-				<key>nodeGraph</key>
+			<![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>centeredOrigin</key>
+	<false/>
+	<key>currentResolution</key>
+	<integer>0</integer>
+	<key>currentSequenceId</key>
+	<integer>0</integer>
+	<key>docDimensionsType</key>
+	<integer>1</integer>
+	<key>fileType</key>
+	<string>CocosBuilder</string>
+	<key>fileVersion</key>
+	<integer>4</integer>
+	<key>guides</key>
+	<array/>
+	<key>jsControlled</key>
+	<false/>
+	<key>nodeGraph</key>
 			]]> ).toString();
 			
 			return export;
@@ -38,11 +37,11 @@ package
 		{
 			var export:String = ( 
 			<![CDATA[
-				<dict>
-				<key>baseClass</key>
-				<string>CCNode</string>
-				<key>children</key>
-				<array>
+	<dict>
+		<key>baseClass</key>
+		<string>CCNode</string>
+		<key>children</key>
+		<array>
 			]]> ).toString();
 			
 			return export;
@@ -52,164 +51,168 @@ package
 		{
 			var export:String = ( 
 			<![CDATA[
-				</array>
-					<key>customClass</key>
+		</array>
+			<key>customClass</key>
+			<string></string>
+			<key>displayName</key>
+			<string>CCNode</string>
+			<key>memberVarAssignmentName</key>
+			<string></string>
+			<key>memberVarAssignmentType</key>
+			<integer>0</integer>
+			<key>properties</key>
+			<array>
+				<dict>
+					<key>name</key>
+					<string>name</string>
+					<key>type</key>
+					<string>StringSimple</string>
+					<key>value</key>
 					<string></string>
-					<key>displayName</key>
-					<string>CCNode</string>
-					<key>memberVarAssignmentName</key>
-					<string></string>
-					<key>memberVarAssignmentType</key>
-					<integer>0</integer>
-					<key>properties</key>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>position</string>
+					<key>type</key>
+					<string>Position</string>
+					<key>value</key>
 					<array>
-						<dict>
-							<key>name</key>
-							<string>name</string>
-							<key>type</key>
-							<string>StringSimple</string>
-							<key>value</key>
-							<string></string>
-						</dict>
-						<dict>
-							<key>name</key>
-							<string>position</string>
-							<key>type</key>
-							<string>Position</string>
-							<key>value</key>
-							<array>
-								<real>0.0</real>
-								<real>0.0</real>
-								<integer>0</integer>
-								<integer>0</integer>
-								<integer>0</integer>
-							</array>
-						</dict>
-						<dict>
-							<key>name</key>
-							<string>contentSize</string>
-							<key>type</key>
-							<string>Size</string>
-							<key>value</key>
-							<array>
-								<real>0.0</real>
-								<real>0.0</real>
-								<integer>0</integer>
-								<integer>0</integer>
-							</array>
-						</dict>
-						<dict>
-							<key>name</key>
-							<string>anchorPoint</string>
-							<key>type</key>
-							<string>Point</string>
-							<key>value</key>
-							<array>
-								<real>0.0</real>
-								<real>0.0</real>
-							</array>
-						</dict>
-						<dict>
-							<key>name</key>
-							<string>scale</string>
-							<key>type</key>
-							<string>ScaleLock</string>
-							<key>value</key>
-							<array>
-								<real>1</real>
-								<real>1</real>
-								<false/>
-								<integer>0</integer>
-							</array>
-						</dict>
+						<real>0.0</real>
+						<real>0.0</real>
+						<integer>0</integer>
+						<integer>0</integer>
+						<integer>0</integer>
 					</array>
-				</dict> 
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>contentSize</string>
+					<key>type</key>
+					<string>Size</string>
+					<key>value</key>
+					<array>
+						<real>0.0</real>
+						<real>0.0</real>
+						<integer>0</integer>
+						<integer>0</integer>
+					</array>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>anchorPoint</string>
+					<key>type</key>
+					<string>Point</string>
+					<key>value</key>
+					<array>
+						<real>0.0</real>
+						<real>0.0</real>
+					</array>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>scale</string>
+					<key>type</key>
+					<string>ScaleLock</string>
+					<key>value</key>
+					<array>
+						<real>1</real>
+						<real>1</real>
+						<false/>
+						<integer>0</integer>
+					</array>
+				</dict>
+			</array>
+		</dict> 
 			]]> ).toString();
+			
+			
 			
 			return export;
 		}
 		
-		public static function addFooter():String
+		public static function addFooter(length: Number):String
 		{
 			var export:String = ( 
 				<![CDATA[
-				<key>notes</key>
+	<key>notes</key>
+	<array/>
+	<key>resolutions</key>
+	<array>
+		<dict>
+			<key>centeredOrigin</key>
+			<false/>
+			<key>ext</key>
+			<string>phone</string>
+			<key>height</key>
+			<integer>0</integer>
+			<key>name</key>
+			<string>Phone</string>
+			<key>scale</key>
+			<real>1</real>
+			<key>width</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>centeredOrigin</key>
+			<false/>
+			<key>ext</key>
+			<string>tablet phonehd</string>
+			<key>height</key>
+			<integer>0</integer>
+			<key>name</key>
+			<string>Tablet</string>
+			<key>scale</key>
+			<real>2</real>
+			<key>width</key>
+			<integer>0</integer>
+		</dict>
+	</array>
+	<key>sequences</key>
+	<array>
+		<dict>
+			<key>autoPlay</key>
+			<true/>
+			<key>callbackChannel</key>
+			<dict>
+				<key>keyframes</key>
 				<array/>
-				<key>resolutions</key>
-				<array>
-					<dict>
-						<key>centeredOrigin</key>
-						<false/>
-						<key>ext</key>
-						<string>phone</string>
-						<key>height</key>
-						<integer>0</integer>
-						<key>name</key>
-						<string>Phone</string>
-						<key>scale</key>
-						<real>1</real>
-						<key>width</key>
-						<integer>0</integer>
-					</dict>
-					<dict>
-						<key>centeredOrigin</key>
-						<false/>
-						<key>ext</key>
-						<string>tablet phonehd</string>
-						<key>height</key>
-						<integer>0</integer>
-						<key>name</key>
-						<string>Tablet</string>
-						<key>scale</key>
-						<real>2</real>
-						<key>width</key>
-						<integer>0</integer>
-					</dict>
-				</array>
-				<key>sequences</key>
-				<array>
-					<dict>
-						<key>autoPlay</key>
-						<true/>
-						<key>callbackChannel</key>
-						<dict>
-							<key>keyframes</key>
-							<array/>
-							<key>type</key>
-							<integer>12</integer>
-						</dict>
-						<key>chainedSequenceId</key>
-						<integer>-1</integer>
-						<key>length</key>
-						<real>10</real>
-						<key>name</key>
-						<string>Default Timeline</string>
-						<key>offset</key>
-						<real>0.0</real>
-						<key>position</key>
-						<real>0.0</real>
-						<key>resolution</key>
-						<real>30</real>
-						<key>scale</key>
-						<real>128</real>
-						<key>sequenceId</key>
-						<integer>0</integer>
-						<key>soundChannel</key>
-						<dict>
-							<key>isExpanded</key>
-							<false/>
-							<key>keyframes</key>
-							<array/>
-							<key>type</key>
-							<integer>11</integer>
-						</dict>
-					</dict>
-				</array>
-				<key>stageBorder</key>
-				<integer>3</integer>
+				<key>type</key>
+				<integer>12</integer>
 			</dict>
-			</plist>
+			<key>chainedSequenceId</key>
+			<integer>-1</integer>
+			<key>length</key>
+			<real>{length}</real>
+			<key>name</key>
+			<string>Default Timeline</string>
+			<key>offset</key>
+			<real>0.0</real>
+			<key>position</key>
+			<real>0.0</real>
+			<key>resolution</key>
+			<real>30</real>
+			<key>scale</key>
+			<real>128</real>
+			<key>sequenceId</key>
+			<integer>0</integer>
+			<key>soundChannel</key>
+			<dict>
+				<key>isExpanded</key>
+				<false/>
+				<key>keyframes</key>
+				<array/>
+				<key>type</key>
+				<integer>11</integer>
+			</dict>
+		</dict>
+	</array>
+	<key>stageBorder</key>
+	<integer>3</integer>
+</dict>
+</plist>
 			]]> ).toString();
+			
+			export = export.replace(/{length}/gs,length);
 			
 			return export;
 		}
@@ -356,8 +359,8 @@ package
 			export = export.replace(/{skewY}/gs,skew[1]);
 			
 			// Rotation
-			export = export.replace(/{rotationX}/gs,int(rotation[0]));
-			export = export.replace(/{rotationY}/gs,int(rotation[1]));
+			export = export.replace(/{rotationX}/gs,rotation[0]);
+			export = export.replace(/{rotationY}/gs,rotation[1]);
 			
 			return export;
 			
@@ -365,72 +368,38 @@ package
 		
 		public static function addAnimation(frames: Array, path: String):String
 		{
+			
 			var export :String = '';
 			
 			// Animated Properties Blocks
 			var startAnimatedProperties:String = ( 
 				<![CDATA[
-				<dict>
+			<dict>
 				<key>animatedProperties</key>
 				<dict>
 					<key>0</key>
+					<dict>
 				]]> ).toString();
 			
 			var endAnimatedProperties:String = ( 
 				<![CDATA[
+					</dict>
 				</dict>
 				]]> ).toString();
-			
-			// Sprite Frame Blocks
-			
-			var startSpriteFrameProperties:String = ( 
-				<![CDATA[
-					<dict>
-						<key>spriteFrame</key>
-						<dict>
-							<key>keyframes</key>
-							<array>
-				]]> ).toString();
-			
-			var endSpriteFrameProperties:String = ( 
-				<![CDATA[
-							</array>
-							<key>name</key>
-							<string>spriteFrame</string>
-							<key>type</key>
-							<integer>7</integer>
-						</dict>
-					</dict>
-				]]> ).toString();
-			
-			// Sprite Frame Keyframes
-			
-			var spriteFrameTemplate :String = (
-				<![CDATA[
-						<dict>
-							<key>easing</key>
-							<dict>
-								<key>type</key>
-								<integer>0</integer>
-							</dict>
-							<key>name</key>
-							<string>spriteFrame</string>
-							<key>time</key>
-							<real>{time}</real>
-							<key>type</key>
-							<integer>7</integer>
-							<key>value</key>
-							<array>
-								<string>{path}/{symbol}.png</string>
-								<string>Use regular file</string>
-							</array>
-						</dict>
-			]]> ).toString();
 			
 			// Begin Animated Properties
 			export+=startAnimatedProperties;
 			
-			// Sprite Frames
+			// Position Keyframes
+			export+=CCBHelper.addPositionFrames(frames,path);
+			
+			// Rotation Keyframes
+			//export+=CCBHelper.addRotationFrames(frames,path);
+			
+			// Skew Keyframes
+			export+=CCBHelper.addSkewFrames(frames,path);
+			
+			// Sprite Keyframes
 			export+=CCBHelper.addSpriteFrames(frames,path);
 			
 			// End Animated Properties
@@ -446,7 +415,6 @@ package
 			// Sprite Frame Blocks
 			var startSpriteFrameProperties:String = ( 
 				<![CDATA[
-					<dict>
 						<key>spriteFrame</key>
 						<dict>
 							<key>keyframes</key>
@@ -461,30 +429,29 @@ package
 							<key>type</key>
 							<integer>7</integer>
 						</dict>
-					</dict>
 				]]> ).toString();
 			
 			// Sprite Frame Keyframes
 			var spriteFrameTemplate :String = (
 				<![CDATA[
-						<dict>
-							<key>easing</key>
-							<dict>
-								<key>type</key>
-								<integer>0</integer>
-							</dict>
-							<key>name</key>
-							<string>spriteFrame</string>
-							<key>time</key>
-							<real>{time}</real>
-							<key>type</key>
-							<integer>7</integer>
-							<key>value</key>
-							<array>
-								<string>{path}/{symbol}.png</string>
-								<string>Use regular file</string>
-							</array>
-						</dict>
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>0</integer>
+									</dict>
+									<key>name</key>
+									<string>spriteFrame</string>
+									<key>time</key>
+									<real>{time}</real>
+									<key>type</key>
+									<integer>7</integer>
+									<key>value</key>
+									<array>
+										<string>{path}/{symbol}.png</string>
+										<string>Use regular file</string>
+									</array>
+								</dict>
 			]]> ).toString();
 			
 			// Sprite Frames
@@ -494,7 +461,7 @@ package
 			var time: Number = 0;
 			for each (var frame :CCBFrame in frames) {
 				
-				// SpriteFrame Block
+				// Keyframe Block
 				var animationBlock :String = spriteFrameTemplate;
 				
 				// Sprite Path
@@ -513,6 +480,246 @@ package
 			
 			// End Sprite Frame
 			export+=endSpriteFrameProperties;
+			
+			return export;
+		}
+		
+		private static function addPositionFrames(frames: Array, path :String):String {
+			
+			var export :String = '';
+			
+			// Sprite Frame Blocks
+			var startPositionFrameProperties:String = ( 
+				<![CDATA[
+						<key>position</key>
+						<dict>
+							<key>keyframes</key>
+							<array>
+				]]> ).toString();
+			
+			var endPositionFrameProperties:String = ( 
+				<![CDATA[
+							</array>
+							<key>name</key>
+							<string>position</string>
+							<key>type</key>
+							<integer>3</integer>
+						</dict>
+				]]> ).toString();
+			
+			// Sprite Frame Keyframes
+			var positionFrameTemplate :String = (
+				<![CDATA[
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>1</integer>
+									</dict>
+									<key>name</key>
+									<string>position</string>
+									<key>time</key>
+									<real>{time}</real>
+									<key>type</key>
+									<integer>3</integer>
+									<key>value</key>
+									<array>
+										<real>{positionX}</real>
+										<real>{positionY}</real>
+									</array>
+								</dict>
+			]]> ).toString();
+			
+			// Sprite Frames
+			export+=startPositionFrameProperties;
+			
+			// Create Key Frames
+			var time: Number = 0;
+			for each (var frame :CCBFrame in frames) {
+				
+				// KeyFrame Block
+				var animationBlock :String = positionFrameTemplate;
+				
+				// Position
+				animationBlock = animationBlock.replace(/{positionX}/gs,frame.position[0]);
+				animationBlock = animationBlock.replace(/{positionY}/gs,frame.position[1]);
+				
+				// Time
+				animationBlock = animationBlock.replace(/{time}/gs,time);
+				
+				// Increment Duration (For Next KeyFrame)
+				time+=frame.duration;
+				
+				// Add To CCB
+				export+=animationBlock;
+			}
+			
+			// End Sprite Frame
+			export+=endPositionFrameProperties;
+			
+			return export;
+		}
+		
+		private static function addSkewFrames(frames: Array, path :String):String {
+			
+			var export :String = '';
+			
+			// Key Frame Blocks
+			var startKeyFrameProperties:String = ( 
+				<![CDATA[
+						<key>skew</key>
+						<dict>
+							<key>keyframes</key>
+							<array>
+				]]> ).toString();
+			
+			var endKeyFrameProperties:String = ( 
+				<![CDATA[
+							</array>
+							<key>name</key>
+							<string>skew</string>
+							<key>type</key>
+							<integer>3</integer>
+						</dict>
+				]]> ).toString();
+			
+			// Skew Keyframe
+			var skewFrameTemplate :String = (
+				<![CDATA[
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>1</integer>
+									</dict>
+									<key>name</key>
+									<string>skew</string>
+									<key>time</key>
+									<real>{time}</real>
+									<key>type</key>
+									<integer>8</integer>
+									<key>value</key>
+									<array>
+										<real>{skewX}</real>
+										<real>{skewY}</real>
+									</array>
+								</dict>
+			]]> ).toString();
+			
+			// Sprite Frames
+			export+=startKeyFrameProperties;
+			
+			// Create Key Frames
+			var time: Number = 0;
+			for each (var frame :CCBFrame in frames) {
+				
+				// KeyFrame Block
+				var animationBlock :String = skewFrameTemplate;
+				
+				// Position
+				animationBlock = animationBlock.replace(/{skewX}/gs,frame.skew[0]);
+				animationBlock = animationBlock.replace(/{skewY}/gs,frame.skew[1]);
+				
+				// Time
+				animationBlock = animationBlock.replace(/{time}/gs,time);
+				
+				// Increment Duration (For Next KeyFrame)
+				time+=frame.duration;
+				
+				// Add To CCB
+				export+=animationBlock;
+			}
+			
+			// End Sprite Frame
+			export+=endKeyFrameProperties;
+			
+			return export;
+		}
+		
+		private static function addRotationFrames(frames: Array, path :String):String {
+			
+			var export :String = '';
+			
+			// Key Frame Blocks
+			var startKeyFrameProperties:String = ( 
+				<![CDATA[
+						<key>rotation</key>
+						<dict>
+							<key>keyframes</key>
+							<array>
+				]]> ).toString();
+			
+			var endKeyFrameProperties:String = ( 
+				<![CDATA[
+							</array>
+							<key>name</key>
+							<string>rotation</string>
+							<key>type</key>
+							<integer>2</integer>
+						</dict>
+				]]> ).toString();
+			
+			// Skew Keyframe
+			var rotationFrameTemplate :String = (
+				<![CDATA[
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>1</integer>
+									</dict>
+									<key>name</key>
+									<string>rotationalSkewX</string>
+									<key>time</key>
+									<real>{time}</real>
+									<key>type</key>
+									<integer>2</integer>
+									<key>value</key>
+									<real>{rotationalSkewX}</real>
+								</dict>
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>1</integer>
+									</dict>
+									<key>name</key>
+									<string>rotationalSkewY</string>
+									<key>time</key>
+									<real>{time}</real>
+									<key>type</key>
+									<integer>2</integer>
+									<key>value</key>
+									<real>{rotationalSkewY}</real>
+								</dict>
+			]]> ).toString();
+			
+			// Sprite Frames
+			export+=startKeyFrameProperties;
+			
+			// Create Key Frames
+			var time: Number = 0;
+			for each (var frame :CCBFrame in frames) {
+				
+				// KeyFrame Block
+				var animationBlock :String = rotationFrameTemplate;
+				
+				// Position
+				animationBlock = animationBlock.replace(/{rotationalSkewX}/gs,frame.rotation[0]);
+				animationBlock = animationBlock.replace(/{rotationalSkewY}/gs,frame.rotation[1]);
+				
+				// Time
+				animationBlock = animationBlock.replace(/{time}/gs,time);
+				
+				// Increment Duration (For Next KeyFrame)
+				time+=frame.duration;
+				
+				// Add To CCB
+				export+=animationBlock;
+			}
+			
+			// End Sprite Frame
+			export+=endKeyFrameProperties;
 			
 			return export;
 		}

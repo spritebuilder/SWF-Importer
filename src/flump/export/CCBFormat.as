@@ -64,7 +64,8 @@ package flump.export
 				var Ref: String = ''; // @testing kFirst Frame Check
 				var movieName :String = movieXml.@name;
 				var frameRate: Number = _lib.frameRate;
-
+				var animationLength: Number = 0; // Default
+				
 				// CCB Per Animation
 				var metaFile: File  = _destDir.resolvePath(_prefix + _lib.location + "_" + movieXml.@name + "." + CCBFormat.NAME.toLowerCase());
 				trace("Movie: "+ movieName + ", FPS: " + frameRate);
@@ -82,6 +83,9 @@ package flump.export
 				for each (var layer :XML in movieXml..layer) {
 					
 					trace("Layer: "+ layer.@name);
+					
+					// Reset Per Layer (Should all be same)
+					animationLength = 0;
 					
 					// Layer Animation Frame Array
 					var animation :Array = new Array();
@@ -114,7 +118,9 @@ package flump.export
 							// Duration
 							if(kf.@duration.length()>0) { 
 								frame.duration =  ( (60 / frameRate) * Number(kf.@duration) ) / 60; 
+								animationLength+=frame.duration;
 							}
+							
 							
 							// Position
 							if(kf.@loc.length()>0) { 
@@ -164,7 +170,7 @@ package flump.export
 				
 				// End CCB
 				export+=CCBHelper.endNode();
-				export+=CCBHelper.addFooter();
+				export+=CCBHelper.addFooter(animationLength);
 				
 				// Write Movie
 				export = export.replace (/\s*\R/g, "\n");  // Remove Empty Lines
