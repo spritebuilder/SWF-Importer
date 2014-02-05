@@ -64,7 +64,8 @@ package flump.export
 				var Ref: String = ''; // @testing kFirst Frame Check
 				var movieName :String = movieXml.@name;
 				var frameRate: Number = _lib.frameRate;
-				var animationLength: Number = 0; // Default
+				var animationLength: Number = 0;     // Default
+				var maxAnimationLength: Number =0 ;  // Capture Max Timeline
 				
 				// CCB Per Animation
 				var metaFile: File  = _destDir.resolvePath(_prefix + _lib.location + "_" + movieXml.@name + "." + CCBFormat.NAME.toLowerCase());
@@ -95,7 +96,7 @@ package flump.export
 					
 						// Check KF Valid
 						if (XmlUtil.hasAttr(kf, "ref")) {
-							
+			
 							trace("KF: "+ kf.@ref);
 							
 							// Lookup Symbol Texture
@@ -152,25 +153,34 @@ package flump.export
 							
 							// Layer Name
 							Ref = movieXml..layer.@name;
+
 							
 						}
 						
 					}
 					
+					// Must have at least 1 valid Symbol frame
+					if(animation.length>0) {
 					
-					// Build Animation
-					export+=CCBHelper.addAnimation(animation,_assetDir);
+						// Build Animation
+						export+=CCBHelper.addAnimation(animation,_assetDir);
+						
+						// Export First Frame (Default Display)
+						var tempFrame: CCBFrame = animation[0];
+						trace("Exporting Sprite Symbol: " + tempFrame.symbol);
+						export+=CCBHelper.addSprite(tempFrame.symbol,_assetDir,tempFrame.position,tempFrame.anchor,tempFrame.scale,tempFrame.skew,tempFrame.rotation);
+					}
 					
-					// Export First Frame (Default Display)
-					var tempFrame: CCBFrame = animation[0];
-					trace("Exporting Sprite: " + tempFrame.symbol);
-					export+=CCBHelper.addSprite(tempFrame.symbol,_assetDir,tempFrame.position,tempFrame.anchor,tempFrame.scale,tempFrame.skew,tempFrame.rotation);
+					// Set Max Timeline
+					if(animationLength>maxAnimationLength) {
+						maxAnimationLength = animationLength;
+					}
 					
 				}
 				
 				// End CCB
 				export+=CCBHelper.endNode();
-				export+=CCBHelper.addFooter(animationLength);
+				export+=CCBHelper.addFooter(maxAnimationLength);
 				
 				// Write Movie
 				export = export.replace (/\s*\R/g, "\n");  // Remove Empty Lines

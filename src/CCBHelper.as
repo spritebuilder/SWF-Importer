@@ -393,8 +393,9 @@ package
 			// Position Keyframes
 			export+=CCBHelper.addPositionFrames(frames,path);
 			
-			// Rotation Keyframes
-			//export+=CCBHelper.addRotationFrames(frames,path);
+			// Rotational Keyframes
+			export+=CCBHelper.addRotationalSkewXFrames(frames,path);
+			export+=CCBHelper.addRotationalSkewYFrames(frames,path);
 			
 			// Skew Keyframes
 			export+=CCBHelper.addSkewFrames(frames,path);
@@ -636,14 +637,14 @@ package
 			return export;
 		}
 		
-		private static function addRotationFrames(frames: Array, path :String):String {
+		private static function addRotationalSkewXFrames(frames: Array, path :String):String {
 			
 			var export :String = '';
 			
 			// Key Frame Blocks
 			var startKeyFrameProperties:String = ( 
 				<![CDATA[
-						<key>rotation</key>
+						<key>rotationalSkewX</key>
 						<dict>
 							<key>keyframes</key>
 							<array>
@@ -653,7 +654,7 @@ package
 				<![CDATA[
 							</array>
 							<key>name</key>
-							<string>rotation</string>
+							<string>rotationalSkewX</string>
 							<key>type</key>
 							<integer>2</integer>
 						</dict>
@@ -677,6 +678,63 @@ package
 									<key>value</key>
 									<real>{rotationalSkewX}</real>
 								</dict>
+			]]> ).toString();
+			
+			// Sprite Frames
+			export+=startKeyFrameProperties;
+			
+			// Create Key Frames
+			var time: Number = 0;
+			for each (var frame :CCBFrame in frames) {
+				
+				// KeyFrame Block
+				var animationBlock :String = rotationFrameTemplate;
+				
+				// Position
+				animationBlock = animationBlock.replace(/{rotationalSkewX}/gs,frame.rotation[0]);
+				
+				// Time
+				animationBlock = animationBlock.replace(/{time}/gs,time);
+				
+				// Increment Duration (For Next KeyFrame)
+				time+=frame.duration;
+				
+				// Add To CCB
+				export+=animationBlock;
+			}
+			
+			// End Sprite Frame
+			export+=endKeyFrameProperties;
+			
+			return export;
+		}
+		
+		private static function addRotationalSkewYFrames(frames: Array, path :String):String {
+			
+			var export :String = '';
+			
+			// Key Frame Blocks
+			var startKeyFrameProperties:String = ( 
+				<![CDATA[
+						<key>rotationalSkewY</key>
+						<dict>
+							<key>keyframes</key>
+							<array>
+				]]> ).toString();
+			
+			var endKeyFrameProperties:String = ( 
+				<![CDATA[
+							</array>
+							<key>name</key>
+							<string>rotationalSkewX</string>
+							<key>type</key>
+							<integer>2</integer>
+						</dict>
+				]]> ).toString();
+			
+			// Skew Keyframe
+			var rotationFrameTemplate :String = (
+				<![CDATA[
 								<dict>
 									<key>easing</key>
 									<dict>
@@ -705,7 +763,6 @@ package
 				var animationBlock :String = rotationFrameTemplate;
 				
 				// Position
-				animationBlock = animationBlock.replace(/{rotationalSkewX}/gs,frame.rotation[0]);
 				animationBlock = animationBlock.replace(/{rotationalSkewY}/gs,frame.rotation[1]);
 				
 				// Time
