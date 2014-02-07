@@ -5,6 +5,7 @@ package flump.export
 	import com.threerings.util.XmlUtil;
 	
 	import flash.filesystem.File;
+	import flash.geom.Rectangle;
 	import flash.utils.IDataOutput;
 	
 	import flump.SwfTexture;
@@ -66,6 +67,7 @@ package flump.export
 				var frameRate: Number = _lib.frameRate;
 				var animationLength: Number = 0;     // Default
 				var maxAnimationLength: Number =0 ;  // Capture Max Timeline
+				var boundingBox:Rectangle = new Rectangle(0,0,0,0);
 				
 				// CCB Per Animation
 				var metaFile: File  = _destDir.resolvePath(_prefix + _lib.location + "_" + movieXml.@name + "." + CCBFormat.NAME.toLowerCase());
@@ -130,6 +132,11 @@ package flump.export
 								frame.position[1] = (Number(frame.position[1])*-1)/_conf.scale;     // Flip Y
 							}
 							
+							// Min/Max Positions
+							if(frame.position[1]<boundingBox.y) {
+								boundingBox.y = frame.position[1];
+							}
+						
 							// Anchor
 							if(kf.@pivot.length()>0) { 
 								frame.anchor = kf.@pivot.split(/,/);
@@ -149,6 +156,11 @@ package flump.export
 								frame.rotation[1] = frame.skew[1] * 180.0/Math.PI;
 							}
 							
+							// Alpha
+							if(kf.@alpha.length()>0) { 
+								frame.opacity = kf.@alpha;
+							}
+							
 							animation.push(frame);
 							
 							// Layer Name
@@ -161,6 +173,11 @@ package flump.export
 					
 					// Must have at least 1 valid Symbol frame
 					if(animation.length>0) {
+						
+						// Shift Y Axis
+						for each (var frame :CCBFrame in animation) {
+							frame.position[1]+=Math.abs(boundingBox.y);
+						}
 					
 						// Build Animation
 						export+=CCBHelper.addAnimation(animation,_assetDir);
@@ -168,10 +185,10 @@ package flump.export
 						// Export First Frame (Default Display)
 						var tempFrame: CCBFrame = animation[0];
 						trace("Exporting Sprite Symbol: " + tempFrame.symbol);
-						export+=CCBHelper.addSprite(tempFrame.symbol,_assetDir,tempFrame.position,tempFrame.anchor,tempFrame.scale,tempFrame.skew,tempFrame.rotation);
+						export+=CCBHelper.addSprite(tempFrame,_assetDir);
 					}
 					
-					// Set Max Timeline
+					// Update Max Timeline
 					if(animationLength>maxAnimationLength) {
 						maxAnimationLength = animationLength;
 					}

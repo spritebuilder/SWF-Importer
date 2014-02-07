@@ -217,7 +217,7 @@ package
 			return export;
 		}
 		
-		public static function addSprite(name: String, path: String, position: Array, anchor: Array,  scale: Array, skew: Array, rotation: Array):String
+		public static function addSprite(frame: CCBFrame, path: String):String
 		{
 			var export:String = ( 
 			<![CDATA[
@@ -322,6 +322,16 @@ package
 						</array>
 					</dict>
 					<dict>
+						<key>baseValue</key>
+						<real>1</real>
+						<key>name</key>
+						<string>opacity</string>
+						<key>type</key>
+						<string>Float</string>
+						<key>value</key>
+						<real>{opacity}</real>
+					</dict>
+					<dict>
 						<key>name</key>
 						<string>color</string>
 						<key>type</key>
@@ -338,29 +348,32 @@ package
 			</dict>
 			]]> ).toString();
 			
-			// Basics
+			// Asset
 			export = export.replace(/{path}/gs,path);
-			export = export.replace(/{name}/gs,name);
+			export = export.replace(/{name}/gs,frame.symbol);
 			
 			// Position
-			export = export.replace(/{positionX}/gs,position[0]);
-			export = export.replace(/{positionY}/gs,position[1]);
+			export = export.replace(/{positionX}/gs,frame.position[0]);
+			export = export.replace(/{positionY}/gs,frame.position[1]);
 			
 			// Anchor
-			export = export.replace(/{anchorX}/gs,anchor[0]);
-			export = export.replace(/{anchorY}/gs,anchor[1]);
+			export = export.replace(/{anchorX}/gs,frame.anchor[0]);
+			export = export.replace(/{anchorY}/gs,frame.anchor[1]);
 			
 			// Scale
-			export = export.replace(/{scaleX}/gs,scale[0]);
-			export = export.replace(/{scaleY}/gs,scale[1]);
+			export = export.replace(/{scaleX}/gs,frame.scale[0]);
+			export = export.replace(/{scaleY}/gs,frame.scale[1]);
 			
 			// Skew
-			export = export.replace(/{skewX}/gs,skew[0]);
-			export = export.replace(/{skewY}/gs,skew[1]);
+			export = export.replace(/{skewX}/gs,frame.skew[0]);
+			export = export.replace(/{skewY}/gs,frame.skew[1]);
 			
-			// Rotation
-			export = export.replace(/{rotationX}/gs,rotation[0]);
-			export = export.replace(/{rotationY}/gs,rotation[1]);
+			// Rotation Skew 
+			export = export.replace(/{rotationX}/gs,frame.rotation[0]);
+			export = export.replace(/{rotationY}/gs,frame.rotation[1]);
+			
+			// Opacity
+			export = export.replace(/{opacity}/gs,frame.opacity);
 			
 			return export;
 			
@@ -403,6 +416,10 @@ package
 			// Sprite Keyframes
 			export+=CCBHelper.addSpriteFrames(frames,path);
 			
+			// Opacity Keyframes
+			export+=CCBHelper.addOpacityFrames(frames,path);
+			
+
 			// End Animated Properties
 			export+=endAnimatedProperties;
 			
@@ -660,7 +677,7 @@ package
 						</dict>
 				]]> ).toString();
 			
-			// Skew Keyframe
+			// Rotational Skew Keyframe
 			var rotationFrameTemplate :String = (
 				<![CDATA[
 								<dict>
@@ -732,7 +749,7 @@ package
 						</dict>
 				]]> ).toString();
 			
-			// Skew Keyframe
+			// Rotational Skew Keyframe
 			var rotationFrameTemplate :String = (
 				<![CDATA[
 								<dict>
@@ -764,6 +781,78 @@ package
 				
 				// Position
 				animationBlock = animationBlock.replace(/{rotationalSkewY}/gs,frame.rotation[1]);
+				
+				// Time
+				animationBlock = animationBlock.replace(/{time}/gs,time);
+				
+				// Increment Duration (For Next KeyFrame)
+				time+=frame.duration;
+				
+				// Add To CCB
+				export+=animationBlock;
+			}
+			
+			// End Sprite Frame
+			export+=endKeyFrameProperties;
+			
+			return export;
+		}
+		
+		private static function addOpacityFrames(frames: Array, path :String):String {
+			
+			var export :String = '';
+			
+			// Key Frame Blocks
+			var startKeyFrameProperties:String = ( 
+				<![CDATA[
+						<key>opacity</key>
+						<dict>
+							<key>keyframes</key>
+							<array>
+				]]> ).toString();
+			
+			var endKeyFrameProperties:String = ( 
+				<![CDATA[
+							</array>
+							<key>name</key>
+							<string>opacity</string>
+							<key>type</key>
+							<integer>10</integer>
+						</dict>
+				]]> ).toString();
+			
+			// Opacity Keyframe
+			var opacityFrameTemplate :String = (
+				<![CDATA[
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>1</integer>
+									</dict>
+									<key>name</key>
+									<string>opacity</string>
+									<key>time</key>
+									<real>{time}</real>
+									<key>type</key>
+									<integer>10</integer>
+									<key>value</key>
+									<real>{opacity}</real>
+								</dict>
+			]]> ).toString();
+			
+			// Sprite Frames
+			export+=startKeyFrameProperties;
+			
+			// Create Key Frames
+			var time: Number = 0;
+			for each (var frame :CCBFrame in frames) {
+				
+				// KeyFrame Block
+				var animationBlock :String = opacityFrameTemplate;
+				
+				// Position
+				animationBlock = animationBlock.replace(/{opacity}/gs,frame.opacity);
 				
 				// Time
 				animationBlock = animationBlock.replace(/{time}/gs,time);
