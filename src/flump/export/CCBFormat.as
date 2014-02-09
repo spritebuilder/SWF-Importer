@@ -124,7 +124,6 @@ package flump.export
 								animationLength+=frame.duration;
 							}
 							
-							
 							// Position
 							if(kf.@loc.length()>0) { 
 								frame.position = kf.@loc.split(/,/);
@@ -133,6 +132,9 @@ package flump.export
 							}
 							
 							// Min/Max Positions
+							if(frame.position[0]>boundingBox.x) {
+								boundingBox.x = frame.position[0];
+							}
 							if(frame.position[1]<boundingBox.y) {
 								boundingBox.y = frame.position[1];
 							}
@@ -174,9 +176,10 @@ package flump.export
 					// Must have at least 1 valid Symbol frame
 					if(animation.length>0) {
 						
-						// Shift Y Axis
+						// Adjust Axis
 						for each (var frame :CCBFrame in animation) {
-							frame.position[1]+=Math.abs(boundingBox.y);
+							frame.position[0]-=Math.abs(boundingBox.y*0.5);
+							frame.position[1]+=Math.abs(boundingBox.y*0.5);
 						}
 					
 						// Build Animation
