@@ -3,6 +3,7 @@ package flump.export
 
 	import com.adobe.images.PNGEncoder;
 	import com.threerings.util.XmlUtil;
+	import com.threerings.util.FileUtil;
 	
 	import flash.filesystem.File;
 	import flash.geom.Rectangle;
@@ -20,7 +21,11 @@ package flump.export
 		
 		public function CCBFormat (destDir :File, lib :XflLibrary, conf :ExportConf) {
 			super(destDir, lib, conf);
-			_assetname = lib.location;
+			
+			// Basename
+			_assetname = FileUtil.stripPathAndDotSuffix(lib.location);
+			
+			// Texture Folder
 			_assetDir  = _assetname + "Assets";
 			_prefix    = "./";
 		}
@@ -30,7 +35,7 @@ package flump.export
 		}
 		
 		override public function publish () :void {
-			const libExportDir :File = _destDir.resolvePath(_prefix + _assetDir + "/" + "resources-auto");
+			const libExportDir :File = _destDir.resolvePath(_prefix + _assetDir + "/" + "resources-auto"); // SpriteBuilder Required for Auto Thumbs
 			
 			// Ensure any previously generated atlases don't linger
 			if (libExportDir.exists) libExportDir.deleteDirectory(/*deleteDirectoryContents=*/true);
@@ -58,7 +63,6 @@ package flump.export
 				}
 			}
 			
-			const prefix :String = _lib.location + "/";
 			for each (movie in _lib.publishedMovies) {
 				
 				var movieXml :XML = movie.scale(_conf.scale).toXML();
@@ -70,7 +74,7 @@ package flump.export
 				var boundingBox:Rectangle = new Rectangle(0,0,0,0);
 				
 				// CCB Per Animation
-				var metaFile: File  = _destDir.resolvePath(_prefix + _lib.location + "_" + movieXml.@name + "." + CCBFormat.NAME.toLowerCase());
+				var metaFile: File  = _destDir.resolvePath(_prefix + _assetname + "_" + movieXml.@name.toLowerCase() + "." + CCBFormat.NAME.toLowerCase());
 				trace("Movie: "+ movieName + ", FPS: " + frameRate);
 				
 				// Write CCB (Skip Scene(s), UnSupported for now, add CCBFile support at some point.)
@@ -176,11 +180,13 @@ package flump.export
 					// Must have at least 1 valid Symbol frame
 					if(animation.length>0) {
 						
+						/*
 						// Adjust Axis
 						for each (var frame :CCBFrame in animation) {
-							frame.position[0]-=Math.abs(boundingBox.y*0.5);
+							frame.position[0]-=Math.abs(boundingBox.x*0.5);
 							frame.position[1]+=Math.abs(boundingBox.y*0.5);
 						}
+						*/
 					
 						// Build Animation
 						export+=CCBHelper.addAnimation(animation,_assetDir);
