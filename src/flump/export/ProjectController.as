@@ -306,7 +306,7 @@ public class ProjectController
         var status :DocStatus = _flashDocsGrid.selectedItem as DocStatus;
         _win.preview.enabled = status != null && status.isValid;
 
-        _win.selectedItem.text = (status == null ? "" : status.path);
+        //_win.selectedItem.text = (status == null ? "" : status.path);
     }
 
     protected function createPublisher () :Publisher {
@@ -438,23 +438,26 @@ public class ProjectController
 
 import flash.events.EventDispatcher;
 
-import flump.export.Ternary;
-import flump.xfl.XflLibrary;
-
 import mx.core.IPropertyChangeNotifier;
 import mx.events.PropertyChangeEvent;
+import com.threerings.util.FileUtil;
+
+import flump.export.Ternary;
+import flump.xfl.XflLibrary;
 
 class DocStatus extends EventDispatcher implements IPropertyChangeNotifier {
     public var path :String;
     public var modified :String;
     public var valid :String = PENDING;
+	public var ccbfile :String = '';
     public var lib :XflLibrary;
 
     public function DocStatus (path :String, modified :Ternary, valid :Ternary, lib :XflLibrary) {
         this.lib = lib;
         this.path = path;
         _uid = path;
-
+		this.ccbfile =  FileUtil.stripPathAndDotSuffix(this.path) + "_";
+		
         updateModified(modified);
         updateValid(valid);
     }
