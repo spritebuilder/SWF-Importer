@@ -1,32 +1,72 @@
 <s:Window xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:mx="library://ns.adobe.com/flex/mx"
   xmlns:s="library://ns.adobe.com/flex/spark"
-  width="600" height="300" title="Export Formats">
+  width="600" height="300" title="Export Options">
   <s:layout>
     <s:VerticalLayout paddingLeft="20" paddingTop="20" paddingRight="20" paddingBottom="20"/>
   </s:layout>
   <s:DataGrid id="exports" width="100%" height="100%" editable="true" selectionMode="multipleRows">
     <s:columns>
       <s:ArrayList>
-        <s:GridColumn dataField="name" headerText="Name"/>
-        <s:GridColumn dataField="format" headerText="Type">
+		  <s:GridColumn dataField="name" headerText="Name">
+			  <s:itemEditor>
+				  <fx:Component>
+					  <s:ComboBoxGridItemEditor>
+						  <s:dataProvider>
+							  <s:ArrayList>
+								  <fx:String>tablet-hd</fx:String>
+								  <fx:String>phone-hd</fx:String>
+								  <fx:String>phone</fx:String>
+							  </s:ArrayList>
+						  </s:dataProvider>
+					  </s:ComboBoxGridItemEditor>
+				  </fx:Component>
+			  </s:itemEditor>
+		  </s:GridColumn>
+        <s:GridColumn dataField="format" headerText="Type" visible="false">
           <s:itemEditor>
             <fx:Component>
               <s:ComboBoxGridItemEditor>
                 <s:dataProvider>
                   <s:ArrayList>
 					<fx:String>CCB</fx:String>
-					<fx:String>XML</fx:String>
                   </s:ArrayList>
                 </s:dataProvider>
               </s:ComboBoxGridItemEditor>
             </fx:Component>
           </s:itemEditor>
         </s:GridColumn>
-        <s:GridColumn dataField="scale" headerText="Base Scale"/>
-        <s:GridColumn dataField="scaleFactorsString" headerText="Additional Scale Factors"/>
-        <s:GridColumn dataField="textureBorder" headerText="Texture Border"/>
-        <s:GridColumn dataField="maxAtlasSize" headerText="Max Atlas Size"/>
-        <s:GridColumn dataField="optimize" headerText="Optimize">
+		  <s:GridColumn dataField="scale" headerText="Scale">
+			  <s:itemEditor>
+				  <fx:Component>
+					  <s:ComboBoxGridItemEditor>
+						  <s:dataProvider>
+							  <s:ArrayList>
+								  <fx:Number>4</fx:Number>
+								  <fx:Number>2</fx:Number>
+								  <fx:Number>1</fx:Number>
+							  </s:ArrayList>
+						  </s:dataProvider>
+					  </s:ComboBoxGridItemEditor>
+				  </fx:Component>
+			  </s:itemEditor>
+		  </s:GridColumn>
+        <s:GridColumn dataField="scaleFactorsString" headerText="Additional Scale Factors" visible="false"/>
+        <s:GridColumn dataField="textureBorder" headerText="Texture Border" visible="false"/>
+		  <s:GridColumn dataField="maxAtlasSize" headerText="Max Texture Size" visible="false">
+			  <s:itemEditor>
+				  <fx:Component>
+					  <s:ComboBoxGridItemEditor>
+						  <s:dataProvider>
+							  <s:ArrayList>
+								  <fx:Number>4096</fx:Number>
+								  <fx:Number>2048</fx:Number>
+							  </s:ArrayList>
+						  </s:dataProvider>
+					  </s:ComboBoxGridItemEditor>
+				  </fx:Component>
+			  </s:itemEditor>
+		  </s:GridColumn>
+        <s:GridColumn dataField="optimize" headerText="Optimize" visible="false">
           <s:itemEditor>
             <fx:Component>
               <s:ComboBoxGridItemEditor>
@@ -50,10 +90,6 @@
                       <fx:String>medium</fx:String>
                       <fx:String>high</fx:String>
                       <fx:String>best</fx:String>
-                      <fx:String>8x8</fx:String>
-                      <fx:String>8x8linear</fx:String>
-                      <fx:String>16x16</fx:String>
-                      <fx:String>16x16linear</fx:String>
                     </s:ArrayList>
                   </s:dataProvider>
                 </s:ComboBoxGridItemEditor>

@@ -28,7 +28,7 @@ public class EditFormatsController
         _win.exports.dataProvider = dataProvider;
         _win.buttonAdd.addEventListener(MouseEvent.CLICK, function (..._) :void {
             var export :ExportConf = new ExportConf();
-            export.name = "format" + (conf.exports.length+1);
+            export.name = "tablet-hd" + (conf.exports.length+1);
             if (conf.exports.length > 0) {
                 export.format = conf.exports[0].format;
             }

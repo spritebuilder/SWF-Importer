@@ -1,7 +1,7 @@
 <s:Window xmlns:fx="http://ns.adobe.com/mxml/2009"
   xmlns:s="library://ns.adobe.com/flex/spark"
   xmlns:mx="library://ns.adobe.com/flex/mx"
-  width="1024" height="700">
+  width="1024" height="700" title="Flash Conversion Tool">
   <s:layout>
     <s:VerticalLayout paddingLeft="20" paddingTop="20" paddingRight="20" paddingBottom="20"/>
   </s:layout>
@@ -9,27 +9,27 @@
 	<s:Image source="@Embed('assets/logo.png')" />
   </s:HGroup>
   <s:HGroup>
-	  <s:Form width="200">
-		  <s:FormItem>
+	
+	  <s:VGroup>
 			  <s:Button id="browseImport" label="Set Import Directory"/>
 			  <s:Label id="importRoot" text="Not Set"/>
 			  <s:Button id="reload" label="Reload" width="80" enabled="false" visible="false"/>
-		  </s:FormItem>
-	  </s:Form>
+	</s:VGroup>
+	 
+	  <s:VGroup>	 
+			  <s:Button id="browseExport" label="Set Export Directory"/>
+			  <s:Label id="exportRoot" text="Not Set"/>
+		  </s:VGroup>
+	  <s:VGroup>
 	  <s:Form width="200">
-		  <s:FormItem>
-				  <s:Button id="browseExport" label="Set Export Directory"/>
-				  <s:Label id="exportRoot" text="Not Set"/>
-		  </s:FormItem>
-	  </s:Form>
-	  <s:Form width="200">
-	  <s:FormItem label="Resolution:">
+	  <s:FormItem label="Scale:">
 		  <s:VGroup>
 			  <s:Label id="formatOverview"/>
 			  <s:Button id="editFormats" width="40" label="..." visible="true"/>
 		  </s:VGroup>
 	  </s:FormItem>
 	  </s:Form>
+	</s:VGroup>
   </s:HGroup>
   <s:HGroup>
     <s:DataGrid id="libraries" width="475" height="300">
@@ -50,7 +50,7 @@
     <s:VGroup width="250">
         <s:FormItem width="250" >
           <s:VGroup>
-            <s:Button id="exportAll" label="Export All"  enabled="false"/>
+            <s:Button id="exportAll" label="Export All"  enabled="true"/>
             <s:Button id="exportModified" label="Export Modified" visible="false"/>
           </s:VGroup>
         </s:FormItem>
