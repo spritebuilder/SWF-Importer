@@ -16,18 +16,21 @@ import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.filesystem.File;
 import flash.utils.IDataOutput;
-
-import flump.executor.Executor;
-import flump.executor.Future;
-import flump.xfl.ParseError;
-import flump.xfl.XflLibrary;
+import flash.net.navigateToURL;
+import flash.net.URLRequest;
 
 import mx.events.PropertyChangeEvent;
 import mx.managers.PopUpManager;
 
 import spark.components.DataGrid;
 import spark.components.Window;
+import spark.events.DropDownEvent;
 import spark.events.GridSelectionEvent;
+
+import flump.executor.Executor;
+import flump.executor.Future;
+import flump.xfl.ParseError;
+import flump.xfl.XflLibrary;
 
 public class ProjectController
 {
@@ -78,9 +81,28 @@ public class ProjectController
             }
             curSelection = newSelection;
         });
+		
+		// Format
+		_win.exportformat.addEventListener(DropDownEvent.CLOSE, function (..._):void {
+			switch(_win.exportformat.selectedIndex) {
+				case 0:
+					_conf.exports[0].scale = 4;
+					break;
+				case 1:
+					_conf.exports[0].scale = 2;
+					break;
+				case 2:
+					_conf.exports[0].scale = 1;
+					break;
+			}
+		});
+		
+		_win.helpButton.addEventListener(MouseEvent.CLICK,  function (..._) :void {
+			navigateToURL(new URLRequest("http://www.spritebuilder.com"),"_blank");
+		});
 
         // Reload
-        _win.reload.addEventListener(MouseEvent.CLICK, F.callback(reloadNow));
+        //_win.reload.addEventListener(MouseEvent.CLICK, F.callback(reloadNow));
 
         // Export
         _win.export.addEventListener(MouseEvent.CLICK, function (..._) :void {
@@ -96,18 +118,20 @@ public class ProjectController
 
         // Export All, Modified
         _win.exportAll.addEventListener(MouseEvent.CLICK, F.callback(exportAll, false));
-        _win.exportModified.addEventListener(MouseEvent.CLICK, F.callback(exportAll, true));
+        //_win.exportModified.addEventListener(MouseEvent.CLICK, F.callback(exportAll, true));
 
         // Import/Export directories
         _importChooser = new DirChooser(null, _win.importRoot, _win.browseImport);
         _importChooser.changed.connect(setImportDirectory);
+		
         _exportChooser = new DirChooser(null, _win.exportRoot, _win.browseExport);
         _exportChooser.changed.connect(F.callback(reloadNow));
 
         _importChooser.changed.connect(F.callback(setProjectDirty, true));
         _exportChooser.changed.connect(F.callback(setProjectDirty, true));
-
+		
         // Edit Formats
+		/*
         var editFormatsController :EditFormatsController = null;
         _win.editFormats.addEventListener(MouseEvent.CLICK, function (..._) :void {
             if (editFormatsController == null || editFormatsController.closed) {
@@ -118,13 +142,14 @@ public class ProjectController
                 editFormatsController.show();
             }
         });
-
+	
         _win.addEventListener(Event.CLOSING, function (e :Event) :void {
             if (_projectDirty) {
                 e.preventDefault();
                 promptToSaveChanges();
             }
         });
+		*/
 
         updateUiFromConf();
         updateWindowTitle();
@@ -137,7 +162,7 @@ public class ProjectController
     }
 
     public function get projectName () :String {
-        return (_confFile != null ? _confFile.name.replace(/\.flump$/i, "") : "Untitled Project");
+        return (_confFile != null ? _confFile.name.replace(/\.f2ccb$/i, "") : "Untitled Project");
     }
 
     public function save (onSuccess :Function = null) :void {
@@ -152,8 +177,8 @@ public class ProjectController
         var file :File = new File();
         file.addEventListener(Event.SELECT, function (..._) :void {
             // Ensure the filename ends with .flump
-            if (!StringUtil.endsWith(file.name.toLowerCase(), ".flump")) {
-                file = file.parent.resolvePath(file.name + ".flump");
+            if (!StringUtil.endsWith(file.name.toLowerCase(), ".f2ccb")) {
+                file = file.parent.resolvePath(file.name + ".f2ccb");
             }
 
             _confFile = file;
@@ -245,6 +270,10 @@ public class ProjectController
         var name :String = this.projectName;
         if (_projectDirty) name += "*";
         _win.title = name;
+		
+		// Activate
+		if(_win.importRoot.visible && _win.exportRoot.visible)
+			_win.exportAll.enabled=true;
     }
 
     protected function saveConf (onSuccess :Function) :void {
@@ -275,6 +304,7 @@ public class ProjectController
     protected function reloadNow () :void {
         setImportDirectory(_importChooser.dir);
         onSelectedItemChanged();
+		_win.exportAll.enabled=true;
     }
 
     protected function updateUiFromConf (..._) :void {
@@ -292,7 +322,8 @@ public class ProjectController
                 formatNames.push(export.description);
             }
         }
-        _win.formatOverview.text = formatNames.join(", ");
+		
+        //_win.formatOverview.text = formatNames.join(", ");
 
         updateWindowTitle();
     }
@@ -327,7 +358,7 @@ public class ProjectController
         }
         _docFinder = new Executor();
         findFlashDocuments(dir, _docFinder, true);
-        _win.reload.enabled = true;
+        //_win.reload.enabled = true;
     }
 
     protected function findFlashDocuments (base :File, exec :Executor, ignoreXflAtBase :Boolean = false) :void {

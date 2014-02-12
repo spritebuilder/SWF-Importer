@@ -46,6 +46,9 @@ package flump.export
 			var SWFTexture: SwfTexture;
 			var movie :MovieMold;
 			
+			// Check Configutration on Project
+			trace(_conf.scale);
+			
 			// Animation Texture Frame
 			for each (var tex :XflTexture in _lib.textures) {
 				SWFTexture = (SwfTexture.fromTexture(_lib.swf, tex, _conf.quality, _conf.scale));

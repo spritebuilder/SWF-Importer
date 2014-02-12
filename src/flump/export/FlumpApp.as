@@ -118,8 +118,8 @@ public class FlumpApp
         file.addEventListener(Event.SELECT, function (..._) :void {
             FlumpApp.app.openProject(file);
         });
-        file.browseForOpen("Open Flump Project", [
-            new FileFilter("Flump project (*.flump)", "*.flump") ]);
+        file.browseForOpen("Open Project", [
+            new FileFilter("Flash2CCB project (*.f2ccb)", "*.f2ccb") ]);
     }
 
     protected function closeProject (controller :ProjectController) :void {
