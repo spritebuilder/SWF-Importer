@@ -43,7 +43,7 @@ public class DirChooser
         if (dir != null) {
             _dir = dir.nativePath;
 			_selector.visible = true;
-            _selector.text = "..." + File.separator + FileUtil.stripPathAndDotSuffix(dir.url.toString());
+            _selector.text = unescape("..." + File.separator + FileUtil.stripPathAndDotSuffix(dir.url.toString()));
         } else {
             _dir = null;
             _selector.text = "<Not Set>";

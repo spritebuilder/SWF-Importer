@@ -15,21 +15,21 @@
 	  <s:VGroup width="180">
 		  <s:Spacer width="10" height="10"/>
 		  <s:Label text="1. Import Directory: " fontWeight="bold"/>
-		  <s:Button id="browseImport" label="Select Directory" width="125"/>
+		  <s:Button id="browseImport" label="Select Directory" width="125" cornerRadius="5"/>
 		  <s:Label id="importRoot" fontStyle="italic"/>
 	 </s:VGroup>
 	 
 	  <s:VGroup width="180">	 
 		  <s:Spacer width="10" height="10"/>
 		  <s:Label text="2. Export Directory: " fontWeight="bold"/>
-		  <s:Button id="browseExport" label="Select Directory" width="125"/>
+		  <s:Button id="browseExport" label="Select Directory" width="125" cornerRadius="5"/>
 		  <s:Label id="exportRoot"  fontStyle="italic"/>
 	  </s:VGroup>
 
 	  <s:VGroup width="180">
 		  <s:Spacer width="10" height="10"/>
 		  <s:Label text="3. Format: " fontWeight="bold"/>
-		  <s:DropDownList id="exportformat" selectedIndex="0"> 
+		  <s:DropDownList id="exportformat" selectedIndex="0" cornerRadius="5"> 
 			  <mx:ArrayCollection>
 				  <fx:String>tablet-hd 4x</fx:String>
 				  <fx:String>iphone-hd 2x</fx:String>
@@ -41,12 +41,12 @@
 	  <s:VGroup width="180">
 		  <s:Spacer width="10" height="10"/>
 		  <s:Label text="4. Export: " fontWeight="bold"/>
-		  <s:Button id="exportAll" label="Export All"  enabled="false" width="90"/>
+		  <s:Button id="exportAll" label="Export All"  enabled="false" width="90" cornerRadius="5"/>
 	  </s:VGroup>
   </s:HGroup>
 	<s:Label text="Conversion Summary: " fontWeight="bold"/>
   <s:HGroup>
-    <s:DataGrid id="libraries" width="650" height="325">
+    <s:DataGrid id="libraries" width="650" height="285" >
       <s:typicalItem>
         <s:DataItem path="multiple/segment/nested/path/of/some/depth" modified="" valid=""/>
       </s:typicalItem>
@@ -68,8 +68,8 @@
 		<s:Spacer width="10" height="5"/>
 		<s:Label text="Preview: " width="250" fontWeight="bold" />
 		<s:HGroup width="250" height="50">
-			<s:Button id="preview" label="Preview" enabled="false" />
-			<s:Button id="export" label="Export"  enabled="false"/>
+			<s:Button id="preview" label="Preview" enabled="false" cornerRadius="5" />
+			<s:Button id="export" label="Export"  enabled="false" cornerRadius="5" />
 		</s:HGroup>
 		<s:Spacer width="10" height="10"/>
 	</s:VGroup>
@@ -77,7 +77,7 @@
 		<s:Spacer width="262"/>
 		<s:VGroup>
 			<s:Spacer height="22"/>
-			<s:Button id="helpButton" label="Support" width="125" fontWeight="bold"/>
+			<s:Button id="helpButton" label="Support" width="125" fontWeight="bold" cornerRadius="5"/>
 		</s:VGroup>
 	</s:HGroup>
 </s:HGroup>

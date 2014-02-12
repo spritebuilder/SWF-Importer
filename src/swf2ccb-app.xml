@@ -52,7 +52,7 @@
 		<!-- <title></title> -->
 
 		<!-- The type of system chrome to use (either "standard" or "none"). Optional. Default standard. -->
-		<!-- <systemChrome></systemChrome> -->
+		<systemChrome>none</systemChrome>
 
 		<!-- Whether the window is transparent. Only applicable when systemChrome is none. Optional. Default false. -->
 		<!-- <transparent></transparent> -->
