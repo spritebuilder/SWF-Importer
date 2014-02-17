@@ -64,9 +64,9 @@ Great let's see these in action in SpriteBuilder.
 
 ## Credits
 
-The guys that did the hardwork, [Three Rings](https://github.com/threerings)
-CCB Exporter/Ux/Conversion Tutorial, Martin Walsh ([@martin64k](https://twitter.com/martin64k))
-Tutorial Flash content, Anna Klonoff & Melissa Wallace
+- The guys that did the hardwork, [Three Rings](https://github.com/threerings)
+- CCB Exporter/Ux/Conversion Tutorial, Martin Walsh ([@martin64k](https://twitter.com/martin64k))
+- Tutorial Flash content, Anna Klonoff & Melissa Wallace
 
 ### Maintainers
 
