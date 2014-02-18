@@ -65,12 +65,12 @@ Great let's see these in action in SpriteBuilder.
 ## Credits
 
 - The guys that did the hardwork, [Three Rings](https://github.com/threerings)
-- CCB Exporter/Ux/Conversion Tutorial, Martin Walsh ([@martin64k](https://twitter.com/martin64k))
+- CCB Exporter/Ux/Conversion Tutorial, [Martin Walsh](http://github.com/cocojoe)
 - Tutorial Flash content, Anna Klonoff & Melissa Wallace
 
 ### Maintainers
 
-- [Martin Walsh](http://github.com/cocojoe) ([@martin64k](https://twitter.com/martin64k))
+- [Martin Walsh](http://github.com/cocojoe)
 
 ## License
 
