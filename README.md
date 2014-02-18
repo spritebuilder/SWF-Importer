@@ -5,6 +5,8 @@ Flash To SpriteBuilder Tool
 
 The easiest way to build this app is to import the source as a project with Adobe Flash Builder 4.7 and it should just work.
 
+If you can't build then please check [Releases](https://github.com/cocojoe/Flash2CCB/releases) for a binary.
+
 Important: The current App Store version (1.0.3) of SpriteBuilder is not fully compatible with this tool, if you want to ensure compatibility please build from [SpriteBuilder source](https://github.com/apportable/SpriteBuilder).
 
 ## Conversion Tutorial
