@@ -3,15 +3,20 @@ Flash To SpriteBuilder Tool
 
 ## How to build
 
-The easiest way to build this app is to import the source as a project with Adobe Flash Builder 4.7 and it should just work.
+The easiest way to build this app is to use Adobe Flash Builder 4.7:  
+ - Simply checkout this repository and then select 'File/Import Flash Build Project'.  
+ - Select 'Project Folder' and navigate to the repository and click 'Finish'.
+ - Then select 'Run/Run'.
 
-If you can't build then please check [Releases](https://github.com/cocojoe/Flash2CCB/releases) for a binary.
+You can probably use [Apache Flex](http://flex.apache.org/) to build as well however this is an exercise for the reader.
 
-Important: The current App Store version (1.0.3) of SpriteBuilder is not fully compatible with this tool, if you want to ensure compatibility please build from [SpriteBuilder source](https://github.com/apportable/SpriteBuilder).
+## Download
+
+If you want to download the app please check [Releases](https://github.com/cocojoe/Flash2CCB/releases) for a binary.
 
 ## Conversion Tutorial
 
-This tutorial will cover the process of converting an existing Adobe Flash animation to [SpriteBuilder](http://www.spritebuilder.com/), you will be using some awesome artwork kindly donated by Melissa Wallace and Anna Klonoff. 
+This tutorial will cover the process of converting an existing Adobe Flash animation to [SpriteBuilder](http://www.spritebuilder.com/), you will be using some awesome artwork kindly donated by Vincent Le Quang, Melissa Wallace and Anna Klonoff. 
 
  - [Pika](https://github.com/jacklehamster/herosmasks/raw/master/Vincent/Flash/pika.fla)
  - [Masks](https://github.com/jacklehamster/herosmasks/raw/master/Vincent/Flash/masks.fla)
@@ -60,6 +65,8 @@ You should now have a file called bluebeast_pikarun.ccb and a bluebeastAssets fo
 
 Great let's see these in action in SpriteBuilder.
 
+Important: The current App Store version (1.0.3) of SpriteBuilder is not fully compatible with this tool, if you want to ensure compatibility please build from [SpriteBuilder source](https://github.com/apportable/SpriteBuilder).
+
 **Step 1)** Create a new project, I called it 'bluedemo', it will open up the MainScene.  Right click on 'MainScene.ccb in the File view and select `Show in Finder`.
 
 **Step 2)** Copy the files from the export into this directory and then click back to the SpriteBuilder view. In a couple of seconds you will see 'bluebeat_pikarun.ccb' appear in File view.
@@ -70,11 +77,12 @@ Great let's see these in action in SpriteBuilder.
 
 - The guys that did the hardwork, [Three Rings](https://github.com/threerings)
 - CCB Exporter/Ux/Conversion Tutorial, [Martin Walsh](http://github.com/cocojoe)
-- Tutorial Flash content, Anna Klonoff & Melissa Wallace
+- Tutorial Flash content: Vincent Le Quang, Anna Klonoff and Melissa Wallace
 
 ### Maintainers
 
 - [Martin Walsh](http://github.com/cocojoe)
+- [Support Forum](http://forum.spritebuilder.com/)
 
 ## License
 
