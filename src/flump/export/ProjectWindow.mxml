@@ -1,14 +1,13 @@
 <s:Window xmlns:fx="http://ns.adobe.com/mxml/2009"
   xmlns:s="library://ns.adobe.com/flex/spark"
   xmlns:mx="library://ns.adobe.com/flex/mx"
-  width="690" height="840" title="Flash Conversion Tool" >
+  width="690" height="520" title="Flash Conversion Tool" >
 	<s:SkinnableContainer skinClass="BitmapFillBackgroundSkin">
 	<s:layout>
     <s:VerticalLayout paddingLeft="20" paddingTop="10" paddingRight="20" paddingBottom="10"/>
   </s:layout>
 	
 	  <s:HGroup>
-		<s:Image source="@Embed('assets/header.png')" horizontalAlign="center" width="650" />
 	  </s:HGroup>
 	  <s:HGroup>
 	
@@ -52,9 +51,9 @@
       </s:typicalItem>
       <s:columns>
         <s:ArrayList>
-          <s:GridColumn dataField="path" headerText="Flash Source" width="250"/> 
+          <s:GridColumn dataField="path" headerText="FLA/SWF Source" width="250"/> 
           <s:GridColumn dataField="modified" headerText="Modified" visible="false"/>
-		  <s:GridColumn dataField="ccbfile" headerText="SpriteBuilder CCB Prefix" editable="false" width="200"/>
+		  <s:GridColumn dataField="ccbfile" headerText="SpriteBuilder Prefix" editable="false" width="200"/>
           <s:GridColumn dataField="valid" headerText="Valid" width="70"/>
         </s:ArrayList>
       </s:columns>
