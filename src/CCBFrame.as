@@ -11,6 +11,7 @@ package
 		public var symbol: String;
 		public var duration: Number;
 		public var opacity: Number = 1;
+		public var layer: String;
 		
 		public function CCBFrame()
 		{

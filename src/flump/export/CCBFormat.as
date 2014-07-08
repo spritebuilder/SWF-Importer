@@ -102,6 +102,11 @@ package flump.export
 					
 					//Parse Key Frames 
 					for each (var kf :XML in layer..kf) {
+						
+						if (XmlUtil.hasAttr(kf, "label")) {
+							trace("Skip Label, Layer: " + layer.@name);
+							continue;
+						}
 					
 						// Check KF Valid
 						if (XmlUtil.hasAttr(kf, "ref")) {
@@ -121,6 +126,9 @@ package flump.export
 							
 							// Create Frame
 							var frame: CCBFrame = new CCBFrame();
+							
+							// Name
+							frame.layer = layer.@name.toString();
 							
 							// Symbol
 							frame.symbol = kf.@ref.toString();
@@ -183,20 +191,13 @@ package flump.export
 					// Must have at least 1 valid Symbol frame
 					if(animation.length>0) {
 						
-						/*
-						// Adjust Axis
-						for each (var frame :CCBFrame in animation) {
-							frame.position[0]-=Math.abs(boundingBox.x*0.5);
-							frame.position[1]+=Math.abs(boundingBox.y*0.5);
-						}
-						*/
-					
 						// Build Animation
 						export+=CCBHelper.addAnimation(animation,_assetDir);
 						
 						// Export First Frame (Default Display)
 						var tempFrame: CCBFrame = animation[0];
-						trace("Exporting Sprite Symbol: " + tempFrame.symbol);
+						trace("Exporting Layer: " + layer.@name);
+						
 						export+=CCBHelper.addSprite(tempFrame,_assetDir);
 					}
 					

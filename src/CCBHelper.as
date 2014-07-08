@@ -318,7 +318,7 @@ package
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>{path}/{name}.png</string>
+							<string>{path}/{symbol}.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -350,7 +350,8 @@ package
 			
 			// Asset
 			export = export.replace(/{path}/gs,path);
-			export = export.replace(/{name}/gs,frame.symbol);
+			export = export.replace(/{name}/gs,frame.layer);
+			export = export.replace(/{symbol}/gs,frame.symbol);
 			
 			// Position
 			export = export.replace(/{positionX}/gs,frame.position[0]);
