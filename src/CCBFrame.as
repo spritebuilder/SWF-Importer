@@ -12,6 +12,8 @@ package
 		public var duration: Number;
 		public var opacity: Number = 1;
 		public var layer: String;
+		public var visiblity: Boolean = false;
+		public var tweened: Boolean = true;
 		
 		public function CCBFrame()
 		{

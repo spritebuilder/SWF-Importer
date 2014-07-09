@@ -109,30 +109,35 @@ package flump.export
 						}
 					
 						// Check KF Valid
-						if (XmlUtil.hasAttr(kf, "ref")) {
-			
-							trace("KF: "+ kf.@ref);
-							
-							// Lookup Symbol Texture
-							var width  :Number = 1;
-							var height :Number = 1;
-							for each (var TextureLookup: SwfTexture in textures) {
-								if(TextureLookup.symbol==kf.@ref) {
-									width  = TextureLookup.w;
-									height = TextureLookup.h;
-									break;
-								}
-							}
-							
+						if (XmlUtil.hasAttr(kf, "ref") || XmlUtil.hasAttr(kf, "duration")) {
+
 							// Create Frame
 							var frame: CCBFrame = new CCBFrame();
 							
 							// Name
 							frame.layer = layer.@name.toString();
 							
-							// Symbol
-							frame.symbol = kf.@ref.toString();
-							
+							if(XmlUtil.hasAttr(kf, "ref")) { 
+								trace("KF: "+ kf.@ref);
+								
+								// Lookup Symbol Texture
+								var width  :Number = 1;
+								var height :Number = 1;
+								for each (var TextureLookup: SwfTexture in textures) {
+									if(TextureLookup.symbol==kf.@ref) {
+										width  = TextureLookup.w;
+										height = TextureLookup.h;
+										break;
+									}
+								}
+								
+								// Symbol
+								frame.symbol = kf.@ref.toString();
+							} else if(XmlUtil.hasAttr(kf, "duration")) {
+								// Visibility Toggle
+								frame.visiblity = true;
+							}
+
 							// Duration
 							if(kf.@duration.length()>0) { 
 								frame.duration =  ( (60 / frameRate) * Number(kf.@duration) ) / 60; 
@@ -155,7 +160,7 @@ package flump.export
 							}
 						
 							// Anchor
-							if(kf.@pivot.length()>0) { 
+							if(kf.@pivot.length()>0 && width && height) { 
 								frame.anchor = kf.@pivot.split(/,/);
 								frame.anchor[0] = frame.anchor[0]/width;
 								frame.anchor[1] = 1 - (frame.anchor[1]/height);
@@ -178,6 +183,13 @@ package flump.export
 								frame.opacity = kf.@alpha;
 							}
 							
+							// Tweened
+							if(XmlUtil.hasAttr(kf, "tweened")) {
+								if(kf.@tweened.toString()=="false") {
+									frame.tweened = false;
+								}
+							}
+							
 							animation.push(frame);
 							
 							// Layer Name
@@ -188,17 +200,21 @@ package flump.export
 						
 					}
 					
-					// Must have at least 1 valid Symbol frame
+					// Requires at least 1 Frame
 					if(animation.length>0) {
 						
 						// Build Animation
 						export+=CCBHelper.addAnimation(animation,_assetDir);
-						
-						// Export First Frame (Default Display)
-						var tempFrame: CCBFrame = animation[0];
 						trace("Exporting Layer: " + layer.@name);
 						
-						export+=CCBHelper.addSprite(tempFrame,_assetDir);
+						// Hack required to ensure a basevalue spriteframe (or will bomb out)
+						for each (var tempFrame :CCBFrame in animation) {
+							if(tempFrame.symbol!=null) {
+								export+=CCBHelper.addSprite(tempFrame,_assetDir);
+								break;
+							}
+						}
+						
 					}
 					
 					// Update Max Timeline

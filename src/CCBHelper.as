@@ -238,6 +238,16 @@ package
 				<key>properties</key>
 				<array>
 					<dict>
+						<key>baseValue</key>
+						<integer>1</integer>
+						<key>name</key>
+						<string>visible</string>
+						<key>type</key>
+						<string>Check</string>
+						<key>value</key>
+						<false/>
+					</dict>
+					<dict>
 						<key>name</key>
 						<string>name</string>
 						<key>type</key>
@@ -420,7 +430,9 @@ package
 			// Opacity Keyframes
 			export+=CCBHelper.addOpacityFrames(frames,path);
 			
-
+			// Visibility KeyFrames
+			export+=CCBHelper.addVisibilityFrames(frames,path);
+			
 			// End Animated Properties
 			export+=endAnimatedProperties;
 			
@@ -480,21 +492,25 @@ package
 			var time: Number = 0;
 			for each (var frame :CCBFrame in frames) {
 				
-				// Keyframe Block
-				var animationBlock :String = spriteFrameTemplate;
-				
-				// Sprite Path
-				animationBlock = animationBlock.replace(/{path}/gs,path);
-				animationBlock = animationBlock.replace(/{symbol}/gs,frame.symbol);
-				
-				// Time
-				animationBlock = animationBlock.replace(/{time}/gs,time);
+				if(frame.symbol!=null) {
+					
+					// Keyframe Block
+					var animationBlock :String = spriteFrameTemplate;
+					
+					// Sprite Path
+					animationBlock = animationBlock.replace(/{path}/gs,path);
+					animationBlock = animationBlock.replace(/{symbol}/gs,frame.symbol);
+					
+					// Time
+					animationBlock = animationBlock.replace(/{time}/gs,time);
+					
+	
+					// Add To CCB
+					export+=animationBlock;
+				}
 				
 				// Increment Duration (For Next KeyFrame)
 				time+=frame.duration;
-				
-				// Add To CCB
-				export+=animationBlock;
 			}
 			
 			// End Sprite Frame
@@ -533,7 +549,7 @@ package
 									<key>easing</key>
 									<dict>
 										<key>type</key>
-										<integer>1</integer>
+										<integer>{easing}</integer>
 									</dict>
 									<key>name</key>
 									<string>position</string>
@@ -554,14 +570,23 @@ package
 			
 			// Create Key Frames
 			var time: Number = 0;
+			var lastFrame: CCBFrame;
 			for each (var frame :CCBFrame in frames) {
 				
+				if(lastFrame && (lastFrame.position[0]==frame.position[0] && lastFrame.position[1]==frame.position[1])) {
+					continue;
+				}
+					
 				// KeyFrame Block
 				var animationBlock :String = positionFrameTemplate;
 				
 				// Position
 				animationBlock = animationBlock.replace(/{positionX}/gs,frame.position[0]);
 				animationBlock = animationBlock.replace(/{positionY}/gs,frame.position[1]);
+				
+				
+				// Tween
+				animationBlock = animationBlock.replace(/{easing}/gs,int(frame.tweened));
 				
 				// Time
 				animationBlock = animationBlock.replace(/{time}/gs,time);
@@ -571,6 +596,8 @@ package
 				
 				// Add To CCB
 				export+=animationBlock;
+
+				lastFrame = frame;
 			}
 			
 			// End Sprite Frame
@@ -871,5 +898,94 @@ package
 			return export;
 		}
 		
+	
+	private static function addVisibilityFrames(frames: Array, path :String):String {
+		
+		var export :String = '';
+		
+		// Key Frame Blocks
+		var startKeyFrameProperties:String = ( 
+			<![CDATA[
+					<key>visible</key>
+					<dict>
+						<key>keyframes</key>
+						<array>
+			]]> ).toString();
+		
+		var endKeyFrameProperties:String = ( 
+			<![CDATA[
+						</array>
+						<key>name</key>
+						<string>visible</string>
+						<key>type</key>
+						<integer>1</integer>
+					</dict>
+			]]> ).toString();
+		
+		// Opacity Keyframe
+		var visibleFrameTemplate :String = (
+			<![CDATA[
+							<dict>
+								<key>easing</key>
+								<dict>
+									<key>type</key>
+									<integer>{easing}</integer>
+								</dict>
+								<key>name</key>
+								<string>visible</string>
+								<key>time</key>
+								<real>{time}</real>
+								<key>type</key>
+								<integer>1</integer>
+								<key>value</key>
+								<true/>
+							</dict>
+		]]> ).toString();
+		
+		// Sprite Frames
+		export+=startKeyFrameProperties;
+		
+		// Create Key Frames
+		var time: Number = 0;
+		var first: Boolean = false;
+		for each (var frame :CCBFrame in frames) {
+			
+			first = false;
+			
+			// Initial
+			if(time==0) { 
+				time  = frame.duration;
+				first = true;
+			}
+			
+			// Check Visibility Present
+			if(frame.visiblity) {
+
+				// KeyFrame Block
+				var animationBlock :String = visibleFrameTemplate;
+	
+				// Time
+				animationBlock = animationBlock.replace(/{time}/gs,time);
+
+				// Tween
+				animationBlock = animationBlock.replace(/{easing}/gs,int(frame.tweened));
+				
+				// Add To CCB
+				export+=animationBlock;
+			}
+			
+			
+			// Increment Duration (For Next KeyFrame)
+			if(!first) {
+				time+=frame.duration;
+			}
+		}
+		
+		// End Sprite Frame
+		export+=endKeyFrameProperties;
+
+		return export;
 	}
+	
+}
 }
