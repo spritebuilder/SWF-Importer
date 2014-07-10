@@ -11,6 +11,13 @@ package
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>SequencerJoints</key>
+	<dict>
+		<key>hidden</key>
+		<false/>
+		<key>locked</key>
+		<false/>
+    </dict>
 	<key>centeredOrigin</key>
 	<false/>
 	<key>currentResolution</key>
@@ -23,7 +30,13 @@ package
 	<string>CocosBuilder</string>
 	<key>fileVersion</key>
 	<integer>4</integer>
+	<key>gridspaceHeight</key>
+	<integer>64</integer>
+	<key>gridspaceWidth</key>
+	<integer>64</integer>
 	<key>guides</key>
+	<array/>
+	<key>joints</key>
 	<array/>
 	<key>jsControlled</key>
 	<false/>
@@ -59,7 +72,7 @@ package
 			<key>memberVarAssignmentName</key>
 			<string></string>
 			<key>memberVarAssignmentType</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>properties</key>
 			<array>
 				<dict>
@@ -217,8 +230,23 @@ package
 			return export;
 		}
 		
-		public static function addSprite(frame: CCBFrame, path: String):String
+		public static function addSprite(frame: CCBFrame, path: String, fVisible: int):String
 		{
+			
+			var propertyVisible:String = (
+				<![CDATA[
+					<dict>
+						<key>baseValue</key>
+						<integer>1</integer>
+						<key>name</key>
+						<string>visible</string>
+						<key>type</key>
+						<string>Check</string>
+						<key>value</key>
+						<false/>
+					</dict>
+				]]>).toString();
+			
 			var export:String = ( 
 			<![CDATA[
 				<key>baseClass</key>
@@ -232,12 +260,13 @@ package
 				<key>memberVarAssignmentName</key>
 				<string></string>
 				<key>memberVarAssignmentType</key>
-				<integer>0</integer>
+				<integer>1</integer>
 				<key>usesFlashSkew</key>
 				<true/>
 				<key>properties</key>
 				<array>
-					<dict>
+				{visible}
+				<dict>
 						<key>baseValue</key>
 						<integer>1</integer>
 						<key>name</key>
@@ -256,14 +285,19 @@ package
 						<string></string>
 					</dict>
 					<dict>
+						<key>baseValue</key>
+						<array>
+							<real>0.0</real>
+							<real>0.0</real>
+						</array>
 						<key>name</key>
 						<string>position</string>
 						<key>type</key>
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>{positionX}</real>
-							<real>{positionY}</real>
+							<real>0</real>
+							<real>0</real>
 							<integer>0</integer>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -281,14 +315,19 @@ package
 						</array>
 					</dict>
 					<dict>
+						<key>baseValue</key>
+						<array>
+							<real>1</real>
+							<real>1</real>
+						</array>
 						<key>name</key>
 						<string>scale</string>
 						<key>type</key>
 						<string>ScaleLock</string>
 						<key>value</key>
 						<array>
-							<real>{scaleX}</real>
-							<real>{scaleY}</real>
+							<real>1</real>
+							<real>1</real>
 							<false/>
 							<integer>0</integer>
 						</array>
@@ -310,6 +349,11 @@ package
 						<real>{rotationY}</real>
 					</dict>
 					<dict>
+						<key>baseValue</key>
+						<array>
+							<real>0.0</real>
+							<real>0.0</real>
+						</array>
 						<key>name</key>
 						<string>skew</string>
 						<key>type</key>
@@ -362,6 +406,13 @@ package
 			export = export.replace(/{path}/gs,path);
 			export = export.replace(/{name}/gs,frame.layer);
 			export = export.replace(/{symbol}/gs,frame.symbol);
+			
+			// Visibility
+			if(fVisible>0) {
+				export = export.replace(/{visible}/gs,propertyVisible);
+			} else {
+				export = export.replace(/{visible}/gs,"");
+			}
 			
 			// Position
 			export = export.replace(/{positionX}/gs,frame.position[0]);
@@ -490,9 +541,10 @@ package
 			
 			// Create Key Frames
 			var time: Number = 0;
+			var lastSymbol: String='';
 			for each (var frame :CCBFrame in frames) {
 				
-				if(frame.symbol!=null) {
+				if(frame.symbol!=null && lastSymbol!=frame.symbol) {
 					
 					// Keyframe Block
 					var animationBlock :String = spriteFrameTemplate;
@@ -503,14 +555,21 @@ package
 					
 					// Time
 					animationBlock = animationBlock.replace(/{time}/gs,time);
-					
-	
+						
 					// Add To CCB
 					export+=animationBlock;
+					
+					// Last Frame
+					lastSymbol=frame.symbol;
 				}
 				
 				// Increment Duration (For Next KeyFrame)
 				time+=frame.duration;
+			}
+			
+			// Export contains data
+			if(export.length==startSpriteFrameProperties.length) {
+				return '';
 			}
 			
 			// End Sprite Frame
@@ -570,10 +629,10 @@ package
 			
 			// Create Key Frames
 			var time: Number = 0;
-			var lastFrame: CCBFrame;
 			for each (var frame :CCBFrame in frames) {
 				
-				if(lastFrame && (lastFrame.position[0]==frame.position[0] && lastFrame.position[1]==frame.position[1])) {
+				if(!frame.flagPosition) {
+					time+=frame.duration;
 					continue;
 				}
 					
@@ -583,7 +642,6 @@ package
 				// Position
 				animationBlock = animationBlock.replace(/{positionX}/gs,frame.position[0]);
 				animationBlock = animationBlock.replace(/{positionY}/gs,frame.position[1]);
-				
 				
 				// Tween
 				animationBlock = animationBlock.replace(/{easing}/gs,int(frame.tweened));
@@ -596,8 +654,11 @@ package
 				
 				// Add To CCB
 				export+=animationBlock;
-
-				lastFrame = frame;
+			}
+			
+			// Export contains data
+			if(export.length==startPositionFrameProperties.length) {
+				return '';
 			}
 			
 			// End Sprite Frame
@@ -659,6 +720,11 @@ package
 			var time: Number = 0;
 			for each (var frame :CCBFrame in frames) {
 				
+				if(!frame.flagSkew) {
+					time+=frame.duration;
+					continue;
+				}
+				
 				// KeyFrame Block
 				var animationBlock :String = skewFrameTemplate;
 				
@@ -675,6 +741,12 @@ package
 				// Add To CCB
 				export+=animationBlock;
 			}
+			
+			// Export contains data
+			if(export.length==startKeyFrameProperties.length) {
+				return '';
+			}
+			
 			
 			// End Sprite Frame
 			export+=endKeyFrameProperties;
@@ -746,6 +818,11 @@ package
 				
 				// Add To CCB
 				export+=animationBlock;
+			}
+			
+			// Export contains data
+			if(export.length==startKeyFrameProperties.length) {
+				return '';
 			}
 			
 			// End Sprite Frame
@@ -820,6 +897,11 @@ package
 				export+=animationBlock;
 			}
 			
+			// Export contains data
+			if(export.length==startKeyFrameProperties.length) {
+				return '';
+			}
+			
 			// End Sprite Frame
 			export+=endKeyFrameProperties;
 			
@@ -876,6 +958,11 @@ package
 			var time: Number = 0;
 			for each (var frame :CCBFrame in frames) {
 				
+				if(!frame.flagOpacity) {
+					time+=frame.duration;
+					continue;
+				}
+				
 				// KeyFrame Block
 				var animationBlock :String = opacityFrameTemplate;
 				
@@ -890,6 +977,11 @@ package
 				
 				// Add To CCB
 				export+=animationBlock;
+			}
+			
+			// Export contains data
+			if(export.length==startKeyFrameProperties.length) {
+				return '';
 			}
 			
 			// End Sprite Frame
@@ -979,6 +1071,11 @@ package
 			if(!first) {
 				time+=frame.duration;
 			}
+		}
+		
+		// Export contains data
+		if(export.length==startKeyFrameProperties.length) {
+			return '';
 		}
 		
 		// End Sprite Frame

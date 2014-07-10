@@ -2,8 +2,8 @@ package flump.export
 {
 
 	import com.adobe.images.PNGEncoder;
-	import com.threerings.util.XmlUtil;
 	import com.threerings.util.FileUtil;
+	import com.threerings.util.XmlUtil;
 	
 	import flash.filesystem.File;
 	import flash.geom.Rectangle;
@@ -145,20 +145,22 @@ package flump.export
 							}
 							
 							// Position
-							if(kf.@loc.length()>0) { 
-								frame.position = kf.@loc.split(/,/);
-								frame.position[0] = Number(frame.position[0])/_conf.scale; 
-								frame.position[1] = (Number(frame.position[1])*-1)/_conf.scale;     // Flip Y
+							if(XmlUtil.hasAttr(kf, "loc")) { 
+								frame.flagPosition = true;
+								frame.position     = kf.@loc.split(/,/);
+								frame.position[0]  = Number(frame.position[0])/_conf.scale; 
+								frame.position[1]  = (Number(frame.position[1])*-1)/_conf.scale;     // Flip Y
+								
+								// Min/Max Positions
+								if(frame.position[0]>boundingBox.x) {
+									boundingBox.x = frame.position[0];
+								}
+								if(frame.position[1]<boundingBox.y) {
+									boundingBox.y = frame.position[1];
+								}
+								
 							}
 							
-							// Min/Max Positions
-							if(frame.position[0]>boundingBox.x) {
-								boundingBox.x = frame.position[0];
-							}
-							if(frame.position[1]<boundingBox.y) {
-								boundingBox.y = frame.position[1];
-							}
-						
 							// Anchor
 							if(kf.@pivot.length()>0 && width && height) { 
 								frame.anchor = kf.@pivot.split(/,/);
@@ -172,15 +174,17 @@ package flump.export
 							}
 							
 							// Skew / Rotation
-							if(kf.@skew.length()>0) { 
+							if(XmlUtil.hasAttr(kf, "skew")) { 
+								frame.flagSkew = true;
 								frame.skew = kf.@skew.split(/,/);
 								frame.rotation[0] = frame.skew[0] * 180.0/Math.PI;
 								frame.rotation[1] = frame.skew[1] * 180.0/Math.PI;
 							}
 							
 							// Alpha
-							if(kf.@alpha.length()>0) { 
-								frame.opacity = kf.@alpha;
+							if(XmlUtil.hasAttr(kf, "alpha")) {
+								frame.flagOpacity = true;
+								frame.opacity     = kf.@alpha;
 							}
 							
 							// Tweened
@@ -204,13 +208,18 @@ package flump.export
 					if(animation.length>0) {
 						
 						// Build Animation
-						export+=CCBHelper.addAnimation(animation,_assetDir);
+						var keyFrameExport:String = CCBHelper.addAnimation(animation,_assetDir);
+						export+=keyFrameExport;
 						trace("Exporting Layer: " + layer.@name);
 						
-						// Hack required to ensure a basevalue spriteframe (or will bomb out)
+						// Flags
+						var fVisible:int = keyFrameExport.search("visible");
+						
+						
+						// Hack required to ensure a basevalue spriteframe (or will bomb out runtime)
 						for each (var tempFrame :CCBFrame in animation) {
 							if(tempFrame.symbol!=null) {
-								export+=CCBHelper.addSprite(tempFrame,_assetDir);
+								export+=CCBHelper.addSprite(tempFrame,_assetDir,fVisible);
 								break;
 							}
 						}
