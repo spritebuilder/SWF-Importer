@@ -33,13 +33,13 @@ Double click the 'Pika run' symbol from the library.
 
 Hit play to watch this majestic beast in action, this creature would make a nice endless runner....
 
-**Step 1)** Open properties for Pika run and tick the `Export for ActionScript`, then tick `Export in frame 1`, the base class should be `flash.display.MoveClip`.
+**Step 1)** Open properties for Pika run and tick the `Export for ActionScript`, then tick `Export in frame 1`, the base class should be `flash.display.MovieClip`.
 
 Great this will now be picked up as an animation for the conversion tool, you then need to ensure all of the component parts of this animation can be exported as textures.  You can see various symbols such as Eye, EarFront and Horn in the Library view.
 
 **Step 2)** Select all of the symbols from 'BackLeg' down to 'Tail', unselect 'Pika Run' and then edit properties.
 
-**Step 3)** Tick `type` and ensure `Move Clip` is selected from the drop down.  Tick `Export for Actionscript` and change the dropdown to `Yes`, don't worry about any warnings. Tick `Export in frame 1` andchange the dropdown to `Yes`.  Tick the `Base class` and enter `flash.display.Sprite`. Hit OK.
+**Step 3)** Tick `type` and ensure `Movie Clip` is selected from the drop down.  Tick `Export for Actionscript` and change the dropdown to `Yes`, don't worry about any warnings. Tick `Export in frame 1` andchange the dropdown to `Yes`.  Tick the `Base class` and enter `flash.display.Sprite`. Hit OK.
 
 **Step 5)** Hit Publish
 
