@@ -119,7 +119,7 @@ public class FlumpApp
             FlumpApp.app.openProject(file);
         });
         file.browseForOpen("Open Project", [
-            new FileFilter("Flash2CCB project (*.f2ccb)", "*.f2ccb") ]);
+            new FileFilter("SWF Importer Project (*.swfimp)", "*.swfimp") ]);
     }
 
     protected function closeProject (controller :ProjectController) :void {

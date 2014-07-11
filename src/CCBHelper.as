@@ -543,7 +543,7 @@ package
 			var time: Number = 0;
 			var lastSymbol: String='';
 			for each (var frame :CCBFrame in frames) {
-				
+
 				if(frame.symbol!=null && lastSymbol!=frame.symbol) {
 					
 					// Keyframe Block

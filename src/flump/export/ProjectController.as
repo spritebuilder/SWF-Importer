@@ -162,7 +162,7 @@ public class ProjectController
     }
 
     public function get projectName () :String {
-        return (_confFile != null ? _confFile.name.replace(/\.f2ccb$/i, "") : "Untitled Project");
+        return (_confFile != null ? _confFile.name.replace(/\.swfimp/i, "") : "Untitled Project");
     }
 
     public function save (onSuccess :Function = null) :void {
@@ -177,8 +177,8 @@ public class ProjectController
         var file :File = new File();
         file.addEventListener(Event.SELECT, function (..._) :void {
             // Ensure the filename ends with .flump
-            if (!StringUtil.endsWith(file.name.toLowerCase(), ".f2ccb")) {
-                file = file.parent.resolvePath(file.name + ".f2ccb");
+            if (!StringUtil.endsWith(file.name.toLowerCase(), ".swfimp")) {
+                file = file.parent.resolvePath(file.name + ".swfimp");
             }
 
             _confFile = file;
