@@ -1,7 +1,7 @@
 SWF Importer 
 ===================
 
- - Convert your FLA/SWF to SpriteBuilder CCB
+Convert your FLA/SWF to SpriteBuilder CCB
 
 ## Download
 
@@ -9,9 +9,9 @@ The easiest way to get started is to download the app please see [Releases](http
 
 ## Want to roll you rown?
 The easiest way to build this app is to use Adobe Flash Builder 4.7+:  
- - Simply checkout this repository and then select 'File/Import Flash Build Project'.  
- - Select 'Project Folder' and navigate to the repository and click 'Finish'.
- - Then select 'Run/Run'.
+ - Simply checkout this repository and then select `File/Import Flash Build Project`.  
+ - Select the repository folder and click `Finish`.
+ - Then select `Run/Run`.
 
 You could possibly use [Apache Flex](http://flex.apache.org/) to build, however this is an exercise for the reader.
 
