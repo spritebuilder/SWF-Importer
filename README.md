@@ -3,6 +3,8 @@ SWF Importer
 
 Convert your Flash animations to SpriteBuilder.
 
+Looking for support? Please visit the [SpriteBuilder Forum](http://forum.spritebuilder.com/).
+
 ## Download
 
 The easiest way to get started is to download the app please see [Releases](https://github.com/cocojoe/Flash2CCB/releases) for a binary.
