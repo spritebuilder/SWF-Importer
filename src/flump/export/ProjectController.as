@@ -98,7 +98,7 @@ public class ProjectController
 		});
 		
 		_win.helpButton.addEventListener(MouseEvent.CLICK,  function (..._) :void {
-			navigateToURL(new URLRequest("http://www.spritebuilder.com"),"_blank");
+			navigateToURL(new URLRequest("https://github.com/cocojoe/SWF-Importer/blob/master/README.md"),"_blank");
 		});
 
         // Reload
