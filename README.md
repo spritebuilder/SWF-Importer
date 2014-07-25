@@ -7,7 +7,7 @@ Convert your Flash animations to SpriteBuilder.
 
 The easiest way to get started is to download the app please see [Releases](https://github.com/cocojoe/Flash2CCB/releases) for a binary.
 
-If you want to try it right now, then download the conversion ready [Tutorial Content](https://github.com/cocojoe/SWF-Importer/tree/master/Tutorial%20Content). Then skip to the `Conversion` section of this Readme for more information.
+If you want to try it right now, then download the conversion ready [Tutorial Content](https://github.com/cocojoe/SWF-Importer/tree/master/Tutorial%20Content). Then skip to the Conversion section of this Readme for more information.
 
 ## Want to roll you rown?
 The easiest way to build this app is to use Adobe Flash Builder 4.7+:  
