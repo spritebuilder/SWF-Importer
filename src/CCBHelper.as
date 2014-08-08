@@ -466,6 +466,9 @@ package
 			export+=startAnimatedProperties;
 			
 			// Position Keyframes
+			export+=CCBHelper.addScaleFrames(frames,path);
+			
+			// Position Keyframes
 			export+=CCBHelper.addPositionFrames(frames,path);
 			
 			// Rotational Keyframes
@@ -754,6 +757,110 @@ package
 			return export;
 		}
 		
+		private static function addScaleFrames(frames: Array, path :String):String {
+			
+			var export :String = '';
+			
+			// Key Frame Blocks
+			var startKeyFrameProperties:String = ( 
+				<![CDATA[
+						<key>scale</key>
+						<dict>
+							<key>keyframes</key>
+							<array>
+				]]> ).toString();
+			
+			var endKeyFrameProperties:String = ( 
+				<![CDATA[
+							</array>
+							<key>name</key>
+							<string>scale</string>
+							<key>type</key>
+							<integer>4</integer>
+						</dict>
+				]]> ).toString();
+			
+			// Skew Keyframe
+			var scaleFrameTemplate :String = (
+				<![CDATA[
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>1</integer>
+									</dict>
+									<key>name</key>
+									<string>scale</string>
+									<key>time</key>
+									<real>{time}</real>
+									<key>type</key>
+									<integer>4</integer>
+									<key>value</key>
+									<array>
+										<real>{scaleX}</real>
+										<real>{scaleY}</real>
+									</array>
+								</dict>
+			]]> ).toString();
+			
+			// Sprite Frames
+			export+=startKeyFrameProperties;
+			
+			// Create Key Frames
+			var time: Number = 0;
+			for each (var frame :CCBFrame in frames) {
+				
+				if(time==0 && !frame.flagScale) {
+					
+					// KeyFrame Block
+					var defaultAnimationBlock :String = scaleFrameTemplate;
+					
+					// Scale
+					defaultAnimationBlock = defaultAnimationBlock.replace(/{scaleX}/gs,1);
+					defaultAnimationBlock = defaultAnimationBlock.replace(/{scaleY}/gs,1);
+					
+					// Time
+					defaultAnimationBlock = defaultAnimationBlock.replace(/{time}/gs,time);
+					
+					// Add To CCB
+					export+=defaultAnimationBlock;
+				}
+				
+				if(!frame.flagScale) {
+					time+=frame.duration;
+					continue;
+				}
+				
+				// KeyFrame Block
+				var animationBlock :String = scaleFrameTemplate;
+				
+				// Scale
+				animationBlock = animationBlock.replace(/{scaleX}/gs,frame.scale[0]);
+				animationBlock = animationBlock.replace(/{scaleY}/gs,frame.scale[1]);
+				
+				// Time
+				animationBlock = animationBlock.replace(/{time}/gs,time);
+				
+				// Increment Duration (For Next KeyFrame)
+				time+=frame.duration;
+				
+				// Add To CCB
+				export+=animationBlock;
+			}
+			
+
+			// Export contains data
+			if(export.length==startKeyFrameProperties.length) {
+				return '';
+			}
+			
+			
+			// End Sprite Frame
+			export+=endKeyFrameProperties;
+			
+			return export;
+		}
+		
 		private static function addRotationalSkewXFrames(frames: Array, path :String):String {
 			
 			var export :String = '';
@@ -803,6 +910,11 @@ package
 			// Create Key Frames
 			var time: Number = 0;
 			for each (var frame :CCBFrame in frames) {
+				
+				if(!frame.flagRotation) {
+					time+=frame.duration;
+					continue;
+				}
 				
 				// KeyFrame Block
 				var animationBlock :String = rotationFrameTemplate;
@@ -881,6 +993,11 @@ package
 			var time: Number = 0;
 			for each (var frame :CCBFrame in frames) {
 				
+				if(!frame.flagRotation) {
+					time+=frame.duration;
+					continue;
+				}
+				
 				// KeyFrame Block
 				var animationBlock :String = rotationFrameTemplate;
 				
@@ -957,6 +1074,21 @@ package
 			// Create Key Frames
 			var time: Number = 0;
 			for each (var frame :CCBFrame in frames) {
+				
+				if(time==0 && !frame.flagOpacity) {
+					
+					// KeyFrame Block
+					var defaultAnimationBlock :String = opacityFrameTemplate;
+					
+					// Scale
+					defaultAnimationBlock = defaultAnimationBlock.replace(/{opacity}/gs,1);
+					
+					// Time
+					defaultAnimationBlock = defaultAnimationBlock.replace(/{time}/gs,time);
+					
+					// Add To CCB
+					export+=defaultAnimationBlock;
+				}
 				
 				if(!frame.flagOpacity) {
 					time+=frame.duration;

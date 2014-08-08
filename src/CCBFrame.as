@@ -5,9 +5,11 @@ package
 	{
 		public var anchor: Array=[0.5,0.5];
 		public var scale: Array=[1,1];
+		public var flagScale: Boolean = false;
 		public var skew: Array=[0,0];
 		public var flagSkew: Boolean = false;
 		public var rotation: Array=[0,0];
+		public var flagRotation: Boolean = false;
 		public var position: Array=[0,0];
 		public var flagPosition: Boolean = false;
 		public var symbol: String;

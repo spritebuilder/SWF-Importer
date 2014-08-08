@@ -170,6 +170,7 @@ package flump.export
 							
 							// Scale
 							if(kf.@scale.length()>0) { 
+								frame.flagScale = true;
 								frame.scale = kf.@scale.split(/,/);
 							}
 							
@@ -177,8 +178,14 @@ package flump.export
 							if(XmlUtil.hasAttr(kf, "skew")) { 
 								frame.flagSkew = true;
 								frame.skew = kf.@skew.split(/,/);
+								
 								frame.rotation[0] = frame.skew[0] * 180.0/Math.PI;
 								frame.rotation[1] = frame.skew[1] * 180.0/Math.PI;
+								
+								if(frame.skew[0]!=0 && frame.skew[1]!=0)
+								{
+									frame.flagRotation = true;
+								}
 							}
 							
 							// Alpha
