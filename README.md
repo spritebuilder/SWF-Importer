@@ -61,6 +61,8 @@ You should see `bluebeast` listed in the **Conversion Summary**, if valid does n
 
 **Step 2)** Select an export directory, if you want to export into an existing SpriteBuilder project then select the `SpriteBuilder Resources` folder inside the desired `.spriteBuilder` project.
 
+`Note:` As of SpriteBuilder 1.2 this folder will be `Packages\SpriteBuilder Resources.sbpack`
+
 **Step 3)** Select the bluebeast and hit `Preview`, looking good. Close this window.
 
 **Step 4)** Hit Export All.
