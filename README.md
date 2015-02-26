@@ -81,6 +81,18 @@ Great let's see these in action in SpriteBuilder. If you didn't drop these strai
 
 **Step 3)** Open this CCB and hit play, you should see the bluebeast running. That's it! 
 
+## Common issues that cause "ERROR" in the converter
+- The published animation symbol cannot contains another symbol inside in the timeline. The items in the timeline should contain/use only tweens in the timeline.
+- Make sure that the publish target inside the Publish Setting is set to the latest Flash Player version. Publshing the animation with old Flash Player versions can cause an error.
+- The final animation that you want to convert should be in a symbol, not a scene.
+- All the tweens used in the timeline needs must be present in the library section when publishing the animations.
+- The published .swf file should have the exact same name with the .fla file.
+- Check the animation frame by frame that the symbol is being used, if you click on it should be a blue box that represents your symbol. An animation frame is not actually using a symbol and is instead a drawing.
+
+## Common issues that cause "Missing texture" in SpriteBuilder
+
+- The exported/converted ccb file and assets folder should be copied into the root folder of the SB package. If they're placed inside another folder(s), it will cause the "missing texture" issue in SpriteBuilder.
+
 ## Credits
 
 - The guys that did a load of hardwork, [Three Rings](https://github.com/threerings)
